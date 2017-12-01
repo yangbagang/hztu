@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">智慧电源</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_mobile">手机号</string>
+    <string name="prompt_password">密码</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_name">名称</string>
+    <string name="prompt_company">公司</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_sign_in_short">登录</string>
+    <string name="action_register_in">注册</string>
+    <string name="action_register_short">注册</string>
+    <string name="action_update">更新</string>
+    <string name="error_invalid_mobile">手机号格式不正确</string>
+    <string name="error_invalid_email">Email格式不正确</string>
+    <string name="error_invalid_password">密码长度不能小于6位</string>
+    <string name="error_incorrect_password">密码不正确</string>
+    <string name="error_field_required">该项必需填写</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <string name="title_activity_main">电池列表</string>
+    <string name="title_activity_login">用户登录</string>
+    <string name="title_activity_register">用户注册</string>
+    <string name="title_activity_update">资料编辑</string>
+    <string name="title_activity_battery_detail">电池详情</string>
+    <string name="title_activity_battery_history">历史数据</string>
+    <string name="title_activity_battery_line_chart">数据折线图</string>
+
+    <string name="pull_refresh_text">下拉刷新</string>
+    <string name="release_refresh_text">释放更新</string>
+    <string name="refreshing_text">加载中...</string>
+</resources>
