@@ -77,7 +77,7 @@ object SendRequest {
      * @param company
      * @param email
      */
-    fun updateInfo(tag: Context, token: String, name: String, company: String, email: String, callback: OkCallback<*>) {
+    fun updateUserInfo(tag: Context, token: String, name: String, company: String, email: String, callback: OkCallback<*>) {
         val params = mapOf<String, String>("token" to token, "name" to name, "company" to company, "email" to email)
         OkHttpProxy.post(HttpUrl.updateUserInfoUrl, tag, params, callback)
     }
@@ -85,6 +85,11 @@ object SendRequest {
     fun updateAppToken(tag: Context, userToken: String, appToken: String, callback: OkCallback<*>) {
         val params = mapOf<String, String>("userToken" to userToken, "appToken" to appToken)
         OkHttpProxy.post(HttpUrl.updateClientIdUrl, tag, params, callback)
+    }
+
+    fun getUserInfo(tag: Context, token: String, callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token)
+        OkHttpProxy.post(HttpUrl.getUserInfoUrl, tag, params, callback)
     }
 
     //第二部分，电池操作
@@ -99,9 +104,14 @@ object SendRequest {
     /**
      * 获得历史数据
      */
-    fun getBatteryDataList(tag: Context, token: String, batteryId: Long, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token, "batteryId" to "$batteryId")
-        OkHttpProxy.post(HttpUrl.batteryListUrl, tag, params, callback)
+    fun getBatteryDataList(tag: Context, token: String, batteryId: Long, pageSize: Int, pageNum: Int, callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "batteryId" to "$batteryId", "pageSize" to "$pageSize", "pageNum" to "$pageNum")
+        OkHttpProxy.post(HttpUrl.batteryDataUrl, tag, params, callback)
+    }
+
+    fun getBatterySumList(tag: Context, token: String, batteryId: Long, key: String, period: Int, callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "batteryId" to "$batteryId", "key" to key, "period" to "$period")
+        OkHttpProxy.post(HttpUrl.batteryChartUrl, tag, params, callback)
     }
 
 

@@ -34,6 +34,8 @@ object HttpUrl {
         get() = ROOT_URL + "/userInfo/register"
     val updateUserInfoUrl: String
         get() = ROOT_URL + "/userInfo/updateInfo"
+    val getUserInfoUrl: String
+        get() = ROOT_URL + "/userInfo/getUserInfo"
     val updateClientIdUrl: String
         get() = ROOT_URL + "/userInfo/updateAppToken"
 
@@ -42,6 +44,8 @@ object HttpUrl {
         get() = ROOT_URL + "/battery/list"
     val batteryDataUrl: String
         get() = ROOT_URL + "/batteryHistoryData/list"
+    val batteryChartUrl: String
+        get() = ROOT_URL + "/batteryHistoryData/calculate"
 
     //公共方法
     fun getImageUrl(fid: String): String {
