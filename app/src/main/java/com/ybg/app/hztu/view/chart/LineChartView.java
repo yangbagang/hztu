@@ -6,10 +6,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -52,13 +49,13 @@ public class LineChartView extends View {
 
     private int xyTextSize = 24; //xy轴文字大小
 
-    private int paddingTop = 140;// 默认上下左右的padding
+    private int paddingTop = 40;// 默认上下左右的padding
 
     private int paddingLeft = 160;
 
     private int paddingRight = 100;
 
-    private int paddingDown = 150;
+    private int paddingDown = 50;
 
     private int scaleHeight = 10; // x轴刻度线高度
 
@@ -66,7 +63,7 @@ public class LineChartView extends View {
 
     private int leftRightExtra = intervalX / 3; //x轴左右向外延伸的长度
 
-    private int lableCountY = 6; // Y轴刻度个数
+    private int labelCountY = 6; // Y轴刻度个数
 
     private int bigCircleR = 7;
 
@@ -76,16 +73,9 @@ public class LineChartView extends View {
 
     private float maxValueY = 0; // y轴最大值
 
-    private int shortLine = 34; // 比例图线段长度
-
-    private Paint paintWhite, paintBlue, paintRed, paintBack, paintText;
-
-    private int backGroundColor = Color.parseColor("#272727"); // view的背景颜色
+    private Paint paintPrimary, paintBlue, paintRed, paintText;
 
     private GestureDetector gestureDetector;
-
-    private String legendTitle = "患者填写";
-
 
     public LineChartView(Context context) {
         this(context, null);
@@ -102,18 +92,14 @@ public class LineChartView extends View {
     }
 
     private void initPaint() {
-        paintWhite = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintWhite.setColor(Color.WHITE);
-        paintWhite.setStyle(Paint.Style.STROKE);
+        paintPrimary = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintPrimary.setColor(Color.parseColor("#303F9F"));
+        paintPrimary.setStyle(Paint.Style.STROKE);
 
         paintBlue = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintBlue.setColor(Color.parseColor("#0198cd"));
         paintBlue.setStrokeWidth(3f);
         paintBlue.setStyle(Paint.Style.STROKE);
-
-        paintBack = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintBack.setColor(Color.parseColor("#272727"));
-        paintBack.setStyle(Paint.Style.FILL);
 
         paintRed = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintRed.setColor(Color.RED);
@@ -121,7 +107,7 @@ public class LineChartView extends View {
         paintRed.setStyle(Paint.Style.STROKE);
 
         paintText = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintText.setColor(Color.WHITE);
+        paintText.setColor(Color.BLACK);
         paintText.setTextSize(xyTextSize);
         paintText.setStrokeWidth(2f);
     }
@@ -139,7 +125,8 @@ public class LineChartView extends View {
             firstMinX = mWidth - originX - (xValues.size() - 1) * intervalX - leftRightExtra;
             // 滑动时，第一个点x值最大为paddingLeft，在大于这个值就不能滑动了
             firstMaxX = firstPointX;
-            setBackgroundColor(backGroundColor);
+
+            intervalY = (mHeight - paddingDown - paddingTop) / labelCountY;
         }
         super.onLayout(changed, left, top, right, bottom);
     }
@@ -149,8 +136,6 @@ public class LineChartView extends View {
         drawX(canvas);
         drawBrokenLine(canvas);
         drawY(canvas);
-        drawLegend(canvas);
-
     }
 
     /**
@@ -165,16 +150,16 @@ public class LineChartView extends View {
             // x轴线
             path.lineTo(mWidth - paddingRight, originY);  // 写死不变
             // x轴箭头
-            canvas.drawLine(mWidth - paddingRight, originY, mWidth - paddingRight - 15, originY + 10, paintWhite);
-            canvas.drawLine(mWidth - paddingRight, originY, mWidth - paddingRight - 15, originY - 10, paintWhite);
+            canvas.drawLine(mWidth - paddingRight, originY, mWidth - paddingRight - 15, originY + 10, paintPrimary);
+            canvas.drawLine(mWidth - paddingRight, originY, mWidth - paddingRight - 15, originY - 10, paintPrimary);
 
             // x轴线上的刻度线
-            canvas.drawLine(firstPointX + i * intervalX, originY, firstPointX + i * intervalX, originY - scaleHeight, paintWhite);
+            canvas.drawLine(firstPointX + i * intervalX, originY, firstPointX + i * intervalX, originY - scaleHeight, paintPrimary);
             // x轴上的文字
             canvas.drawText(xValues.get(i), firstPointX + i * intervalX - getTextWidth(paintText, "17.01") / 2,
                     originY + textToXYAxisGap + getTextHeight(paintText, "17.01"), paintText);
         }
-        canvas.drawPath(path, paintWhite);
+        canvas.drawPath(path, paintPrimary);
 
         // x轴虚线
         Paint p = new Paint();
@@ -184,7 +169,7 @@ public class LineChartView extends View {
         Path path1 = new Path();
         DashPathEffect dash = new DashPathEffect(new float[]{8, 10, 8, 10}, 0);
         p.setPathEffect(dash);
-        for (int i = 0; i < lableCountY; i++) {
+        for (int i = 0; i < labelCountY; i++) {
             path1.moveTo(originX, mHeight - paddingDown - leftRightExtra - i * intervalY);
             path1.lineTo(mWidth - paddingRight, mHeight - paddingDown - leftRightExtra - i * intervalY);
         }
@@ -198,6 +183,7 @@ public class LineChartView extends View {
      */
     private void drawBrokenLine(Canvas canvas) {
         canvas.save();
+        if (xValues.size() == 0 || yValues.size() == 0) return;
         // y轴文字
         minValueY = yValues.get(0);
         for (int i = 0; i < yValues.size(); i++) {
@@ -210,7 +196,7 @@ public class LineChartView extends View {
             }
         }
         // 画折线
-        float aver = (lableCountY - 1) * intervalY / (maxValueY - minValueY);
+        float aver = (labelCountY - 1) * intervalY / (maxValueY - minValueY);
         Path path = new Path();
         for (int i = 0; i < yValues.size(); i++) {
             if (i == 0) {
@@ -225,12 +211,8 @@ public class LineChartView extends View {
             canvas.drawCircle(firstPointX + i * intervalX,
                     mHeight - paddingDown - leftRightExtra - yValues.get(i) * aver + minValueY * aver, bigCircleR, paintBlue);
             canvas.drawCircle(firstPointX + i * intervalX,
-                    mHeight - paddingDown - leftRightExtra - yValues.get(i) * aver + minValueY * aver, smallCircleR, paintBack);
+                    mHeight - paddingDown - leftRightExtra - yValues.get(i) * aver + minValueY * aver, smallCircleR, paintRed);
         }
-        //将折线超出x轴坐标的部分截取掉（左边）
-        paintBack.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
-        RectF rectF = new RectF(0, 0, originX, mHeight);
-        canvas.drawRect(rectF, paintBack);
         canvas.restore();
     }
 
@@ -244,7 +226,7 @@ public class LineChartView extends View {
         Path path = new Path();
         path.moveTo(originX, originY);
 
-        for (int i = 0; i < lableCountY; i++) {
+        for (int i = 0; i < labelCountY; i++) {
             // y轴线
             if (i == 0) {
                 path.lineTo(originX, mHeight - paddingDown - leftRightExtra);
@@ -253,57 +235,30 @@ public class LineChartView extends View {
             }
 
             int lastPointY = mHeight - paddingDown - leftRightExtra - i * intervalY;
-            if (i == lableCountY - 1) {
+            if (i == labelCountY - 1) {
                 int lastY = lastPointY - leftRightExtra - leftRightExtra / 2;
                 // y轴最后一个点后，需要额外加上一小段，就是一个半leftRightExtra的长度
-                canvas.drawLine(originX, lastPointY, originX, lastY, paintWhite);
+                canvas.drawLine(originX, lastPointY, originX, lastY, paintPrimary);
                 // y轴箭头
-                canvas.drawLine(originX, lastY, originX - 10, lastY + 15, paintWhite);
-                canvas.drawLine(originX, lastY, originX + 10, lastY + 15, paintWhite);
+                canvas.drawLine(originX, lastY, originX - 10, lastY + 15, paintPrimary);
+                canvas.drawLine(originX, lastY, originX + 10, lastY + 15, paintPrimary);
             }
         }
-        canvas.drawPath(path, paintWhite);
+        canvas.drawPath(path, paintPrimary);
 
         // y轴文字
-        float space = (maxValueY - minValueY) / (lableCountY - 1);
+        float space = (maxValueY - minValueY) / (labelCountY - 1);
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         List<String> yTitles = new ArrayList<>();
-        for (int i = 0; i < lableCountY; i++) {
+        for (int i = 0; i < labelCountY; i++) {
             yTitles.add(decimalFormat.format(minValueY + i * space));
         }
         for (int i = 0; i < yTitles.size(); i++) {
             canvas.drawText(yTitles.get(i), originX - textToXYAxisGap - getTextWidth(paintText, "00.00"),
                     mHeight - paddingDown - leftRightExtra - i * intervalY + getTextHeight(paintText, "00.00") / 2, paintText);
         }
-        // 截取折线超出部分（右边）
-        paintBack.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
-        RectF rectF = new RectF(mWidth - paddingRight, 0, mWidth, mHeight);
-        canvas.drawRect(rectF, paintBack);
         canvas.restore();
     }
-
-    /**
-     * 画图例
-     */
-    private void drawLegend(Canvas canvas) {
-        // 开始点的坐标
-        int x = 350;
-        int y = mHeight - (paddingDown - textToXYAxisGap - getTextHeight(paintText, "06.00")) / 2;
-        canvas.save();
-        canvas.drawLine(x, y, x + 2 * shortLine, y, paintBlue);
-        canvas.drawCircle(x + shortLine, y, bigCircleR, paintBlue);
-        canvas.drawCircle(x + shortLine, y, smallCircleR, paintBack);
-        canvas.drawText(legendTitle, x + 2 * shortLine + 10, y + getTextHeight(paintText, legendTitle) / 2 - 2, paintText);
-
-        canvas.drawLine(x + 2 * shortLine + getTextWidth(paintText, legendTitle) + 20,
-                y, x + 2 * shortLine + getTextWidth(paintText, legendTitle) + 20 + 2 * shortLine, y, paintRed);
-        canvas.drawCircle(x + 2 * shortLine + getTextWidth(paintText, legendTitle) + 20 + shortLine, y, bigCircleR, paintRed);
-        canvas.drawCircle(x + 2 * shortLine + getTextWidth(paintText, legendTitle) + 20 + shortLine, y, smallCircleR, paintBack);
-        canvas.drawText("护士填写", x + 2 * shortLine + getTextWidth(paintText, legendTitle) + 30 + 2 * shortLine,
-                y + getTextHeight(paintText, legendTitle) / 2 - 2, paintText);
-        canvas.restore();
-    }
-
 
     /**
      * 手势事件

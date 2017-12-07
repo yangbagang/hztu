@@ -12,10 +12,8 @@ import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
 import com.ybg.app.base.bean.JSonResultBean
-import com.ybg.app.base.bean.UserInfo
 import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
-import com.ybg.app.base.utils.GsonUtil
 import com.ybg.app.base.utils.ToastUtil
 import com.ybg.app.hztu.R
 import com.ybg.app.hztu.app.UserApplication
@@ -35,6 +33,15 @@ class UpdateActivity : AppCompatActivity() {
         token_update_button.setOnClickListener { attemptLogin() }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (userApplication.hasLogin()) {
+            user_name.setText(userApplication.userInfo?.name)
+            company.setText(userApplication.userInfo?.company)
+            email.setText(userApplication.userInfo?.email)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -145,15 +152,16 @@ class UpdateActivity : AppCompatActivity() {
         }
     }
 
-    fun update(name: String, company: String, email: String) {
-        SendRequest.updateInfo(this, userApplication.token, name, company, email, object : JsonCallback() {
+    private fun update(name: String, company: String, email: String) {
+        SendRequest.updateUserInfo(this, userApplication.token, name, company, email, object : JsonCallback() {
             override fun onJsonSuccess(data: String) {
                 super.onJsonSuccess(data)
-                val userInfo = GsonUtil.createGson().fromJson<UserInfo>(data, UserInfo::class.java)
+                //val userInfo = GsonUtil.createGson().fromJson<UserInfo>(data, UserInfo::class.java)
                 userApplication.userInfo!!.name = name
                 userApplication.userInfo!!.company = company
                 userApplication.userInfo!!.email = email
                 showProgress(false)
+                ToastUtil.show(userApplication, "更新完成")
                 finish()
             }
 
