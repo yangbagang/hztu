@@ -121,7 +121,7 @@
         </LinearLayout>
     </HorizontalScrollView>
     <!--统计图-->
-    <com.ybg.app.hztu.view.chart.LineChartView
+    <com.sctdroid.app.uikit.CurveView
         android:id="@+id/lc_chart"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -129,5 +129,22 @@
         app:layout_constraintTop_toBottomOf="@id/ll_sum_period"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:backgroundColor="@android:color/transparent"
+        app:corner="10dp"
+        app:contentPaddingStart="40dp"
+        app:contentPaddingEnd="40dp"
+        app:contentPaddingBottom="20dp"
+        app:contentPaddingTop="20dp"
+        app:strokeWidth="1px"
+        app:showXLine="true"
+        app:showXText="true"
+        app:contentColor="@android:color/black"
+        app:dotTextColor="@color/colorPrimary"
+        app:dotTextSize="8sp"
+        app:axisTextSize="9sp"
+        app:axisTextColor="@android:color/black"
+        app:dotTextGravity="center_horizontal|bottom"
+        app:showAll="false"
+        app:unitWidth="100dp"/>
 </android.support.constraint.ConstraintLayout>

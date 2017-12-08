@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import com.google.gson.reflect.TypeToken
+import com.sctdroid.app.uikit.CurveView
 import com.ybg.app.base.bean.Battery
 import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
@@ -26,6 +27,7 @@ class BatteryLineChartActivity : AppCompatActivity() {
 
     private var sumItem = "bv"
     private var sumPeriod = 2
+    private var sumScale = 10
 
     private var xValues: MutableList<String> = ArrayList()
     private var yValues: MutableList<Float> = ArrayList()
@@ -39,10 +41,6 @@ class BatteryLineChartActivity : AppCompatActivity() {
         if (intent != null) {
             battery = intent.extras.get("battery") as Battery
         }
-
-
-        lc_chart.setXValues(xValues)
-        lc_chart.setYValues(yValues)
 
         initEvent()
     }
@@ -84,9 +82,10 @@ class BatteryLineChartActivity : AppCompatActivity() {
     }
 
     private fun setItemValue(valueIndex: Int) {
-        when(valueIndex) {
+        when (valueIndex) {
             0 -> {
                 sumItem = "bv"
+                sumScale = 100
                 setItemChecked(tv_item_bv)
                 setItemUnChecked(tv_item_bt)
                 setItemUnChecked(tv_item_br)
@@ -94,6 +93,7 @@ class BatteryLineChartActivity : AppCompatActivity() {
             }
             1 -> {
                 sumItem = "bt"
+                sumScale = 10
                 setItemUnChecked(tv_item_bv)
                 setItemChecked(tv_item_bt)
                 setItemUnChecked(tv_item_br)
@@ -101,6 +101,7 @@ class BatteryLineChartActivity : AppCompatActivity() {
             }
             2 -> {
                 sumItem = "br"
+                sumScale = 1000
                 setItemUnChecked(tv_item_bv)
                 setItemUnChecked(tv_item_bt)
                 setItemChecked(tv_item_br)
@@ -108,6 +109,7 @@ class BatteryLineChartActivity : AppCompatActivity() {
             }
             3 -> {
                 sumItem = "bi"
+                sumScale = 100
                 setItemUnChecked(tv_item_bv)
                 setItemUnChecked(tv_item_bt)
                 setItemUnChecked(tv_item_br)
@@ -119,7 +121,7 @@ class BatteryLineChartActivity : AppCompatActivity() {
 
     private fun setItemPeriod(periodIndex: Int) {
 
-        when(periodIndex) {
+        when (periodIndex) {
             2 -> {
                 sumPeriod = 2
                 setItemChecked(tv_period_2)
@@ -178,43 +180,42 @@ class BatteryLineChartActivity : AppCompatActivity() {
         if (!userApplication.hasLogin()) return
         if (battery == null) return
         SendRequest.getBatterySumList(this@BatteryLineChartActivity, userApplication.token, battery!!.id,
-                sumItem, sumPeriod, object : JsonCallback(){
+                sumItem, sumPeriod, object : JsonCallback() {
             override fun onJsonSuccess(data: String) {
                 super.onJsonSuccess(data)
-                val list = GsonUtil.createGson().fromJson<List<ChartItem>>(data, object : TypeToken<List<ChartItem>>(){}.type)
+                val list = GsonUtil.createGson().fromJson<List<ChartItem>>(data, object : TypeToken<List<ChartItem>>() {}.type)
                 xValues.clear()
                 yValues.clear()
-//                if (list.isEmpty()) {
-//                    ToastUtil.show(userApplication, "没有相关数据")
-//                } else {
-//                    list.forEach {
-//                        xValues.add(it.xValue)
-//                        yValues.add(it.yValue)
-//                    }
-//                }
-                xValues.add("1")
-                xValues.add("2")
-                xValues.add("3")
-                xValues.add("4")
-                xValues.add("5")
-                xValues.add("6")
-                xValues.add("7")
-                xValues.add("8")
-                xValues.add("9")
-                xValues.add("10")
+                if (list.isEmpty()) {
+                    ToastUtil.show(userApplication, "没有相关数据")
+                } else {
+                    list.forEach {
+                        xValues.add(it.xValue)
+                        yValues.add(it.yValue)
+                    }
 
-                yValues.add(10f)
-                yValues.add(8f)
-                yValues.add(15f)
-                yValues.add(12f)
-                yValues.add(20f)
-                yValues.add(7f)
-                yValues.add(15f)
-                yValues.add(12f)
-                yValues.add(20f)
-                yValues.add(7f)
+                    lc_chart.setAdapter(object : CurveView.Adapter() {
+                        override fun getLevel(position: Int): Int = (yValues[position] * sumScale).toInt()
 
-                lc_chart.invalidate()
+                        override fun getCount(): Int = yValues.size
+
+                        override fun getXAxisText(i: Int): String = xValues[i]
+
+                        override fun getMaxLevel(): Int = (yValues.max()!! * sumScale).toInt()
+
+                        override fun getMinLevel(): Int = (yValues.min()!! * sumScale).toInt()
+
+                        override fun onCreateMarks(position: Int): MutableSet<CurveView.Mark> {
+                            val marks = HashSet<CurveView.Mark>()
+                            val mark = CurveView.Mark("${yValues[position]}", CurveView.Gravity.BOTTOM or CurveView.Gravity.CENTER_HORIZONTAL, 0, 20, 0, 0);
+
+                            marks.add(mark)
+                            return marks;
+                        }
+                    })
+
+                    lc_chart.invalidate()
+                }
             }
         })
     }
