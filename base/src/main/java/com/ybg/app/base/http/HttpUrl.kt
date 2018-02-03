@@ -40,8 +40,16 @@ object HttpUrl {
         get() = ROOT_URL + "/userInfo/updateAppToken"
 
     //第二部分，电池操作
-    val batteryListUrl: String
-        get() = ROOT_URL + "/battery/list"
+    val batteryBSListUrl: String
+        get() = ROOT_URL + "/battery/listBS"
+    val batteryUPSListUrl: String
+        get() = ROOT_URL + "/battery/listUPS"
+    val batteryDCListUrl: String
+        get() = ROOT_URL + "/battery/listDC"
+    val getLocationUrl: String
+        get() = ROOT_URL + "/battery/getLocation"
+    val updateNameUrl: String
+        get() = ROOT_URL + "/battery/updateName"
     val batteryDataUrl: String
         get() = ROOT_URL + "/batteryHistoryData/list"
     val batteryChartUrl: String

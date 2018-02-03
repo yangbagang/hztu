@@ -175,7 +175,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    fun register(mobile: String, password: String, name: String, company: String, email: String) {
+    private fun register(mobile: String, password: String, name: String, company: String, email: String) {
         SendRequest.userRegister(this, mobile, password, name, company, email, object : JsonCallback() {
             override fun onJsonSuccess(data: String) {
                 super.onJsonSuccess(data)

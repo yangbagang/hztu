@@ -94,11 +94,43 @@ object SendRequest {
 
     //第二部分，电池操作
     /**
-     * 获取电池列表
+     * 获取电池系统列表
      */
-    fun getBatteryList(tag: Context, token: String, callback: OkCallback<*>) {
+    fun getBatteryBSList(tag: Context, token: String, callback: OkCallback<*>) {
         val params = mapOf<String, String>("token" to token)
-        OkHttpProxy.post(HttpUrl.batteryListUrl, tag, params, callback)
+        OkHttpProxy.post(HttpUrl.batteryBSListUrl, tag, params, callback)
+    }
+
+    /**
+     * 获取UPS系统列表
+     */
+    fun getBatteryUPSList(tag: Context, token: String, callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token)
+        OkHttpProxy.post(HttpUrl.batteryUPSListUrl, tag, params, callback)
+    }
+
+    /**
+     * 获取直流系统列表
+     */
+    fun getBatteryDCList(tag: Context, token: String, callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token)
+        OkHttpProxy.post(HttpUrl.batteryDCListUrl, tag, params, callback)
+    }
+
+    /**
+     * 获取位置描述。type=0移动。1联通。
+     */
+    fun getLocation(tag: Context, token: String, lac: Int, cid: Int, type: Int, callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "cid" to "$cid", "lac" to "$lac", "type" to "$type")
+        OkHttpProxy.post(HttpUrl.getLocationUrl, tag, params, callback)
+    }
+
+    /**
+     * 自定义设备名称
+     */
+    fun updateName(tag: Context, token: String, uid: String, name: String, callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "uid" to uid, "name" to name)
+        OkHttpProxy.post(HttpUrl.updateNameUrl, tag, params, callback)
     }
 
     /**
@@ -122,7 +154,7 @@ object SendRequest {
         try {
             val uploadBuilder = OkHttpProxy.upload().url(HttpUrl.FILE_SERVER_PIC_UPLOAD).tag(tag)
             uploadBuilder.addParams("folder", folder)
-                    .file(Pair("Filedata", file))
+                    .file(Pair("pic", file))
                     .start(uploadListener)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -136,7 +168,7 @@ object SendRequest {
         try {
             val uploadBuilder = OkHttpProxy.upload().url(HttpUrl.FILE_SERVER_VIDEO_UPLOAD).tag(tag)
             uploadBuilder.addParams("folder", folder)
-                    .file(Pair("Filedata", file))
+                    .file(Pair("video", file))
                     .start(uploadListener)
         } catch (e: Exception) {
             e.printStackTrace()
