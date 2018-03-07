@@ -17,6 +17,7 @@ class Battery : Serializable {
     var dayInWeek = 0//星期几
     var weekInYear = 0//第几周
     var uid = ""//为序列号即为“站号”
+    var name = ""//用户自定义名称
     var lac = 0//基站定位，app定位地图
     var cid = 0//基站定位，app定位地图
     var num = 0//一个站内，多个被采集对象的序号

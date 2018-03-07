@@ -13,14 +13,14 @@ import com.ybg.app.hztu.R
 import com.ybg.app.hztu.app.UserApplication
 import kotlinx.android.synthetic.main.activity_battery_detail.*
 
-class BatteryDetailActivity : AppCompatActivity() {
+class SystemDetailActivity : AppCompatActivity() {
 
     private val userApplication = UserApplication.instance!!
     private var battery: Battery? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_battery_detail)
+        setContentView(R.layout.activity_system_detail)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -34,11 +34,6 @@ class BatteryDetailActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.info, menu)
-        return true
-    }
-
     private fun getValueView(label: String, value: String): View {
         val item = layoutInflater.inflate(R.layout.battery_value_content, null)
         val itemLabel = item.findViewById<TextView>(R.id.tv_item_label)
@@ -48,20 +43,25 @@ class BatteryDetailActivity : AppCompatActivity() {
         return item
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.info, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 return true
             }
-            R.id.action_detail -> {
-                if (battery != null) {
-                    BatteryHistoryActivity.start(this@BatteryDetailActivity, battery!!)
-                }
-            }
             R.id.action_chart -> {
                 if (battery != null) {
-                    BatteryLineChartActivity.start(this@BatteryDetailActivity, battery!!)
+                    SystemLineChartActivity.start(this@SystemDetailActivity, battery!!)
+                }
+            }
+            R.id.action_detail -> {
+                if (battery != null) {
+                    SystemHistoryActivity.start(this@SystemDetailActivity, battery!!)
                 }
             }
         }
@@ -70,7 +70,7 @@ class BatteryDetailActivity : AppCompatActivity() {
 
     companion object {
         fun start(context: Context, battery: Battery) {
-            val starter = Intent(context, BatteryDetailActivity::class.java)
+            val starter = Intent(context, SystemDetailActivity::class.java)
             starter.putExtra("battery", battery)
             context.startActivity(starter)
         }

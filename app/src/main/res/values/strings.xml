@@ -21,11 +21,12 @@
         completions."
     </string>
 
-    <string name="title_activity_main">电池列表</string>
+    <string name="title_activity_main">设备列表</string>
     <string name="title_activity_login">用户登录</string>
     <string name="title_activity_register">用户注册</string>
     <string name="title_activity_update">资料编辑</string>
-    <string name="title_activity_battery_detail">电池详情</string>
+    <string name="title_activity_battery_main">设备数据</string>
+    <string name="title_activity_battery_detail">设备详情</string>
     <string name="title_activity_battery_history">历史数据</string>
     <string name="title_activity_battery_line_chart">数据折线图</string>
 

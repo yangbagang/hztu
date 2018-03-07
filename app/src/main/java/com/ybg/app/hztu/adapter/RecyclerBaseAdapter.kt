@@ -17,8 +17,8 @@ abstract class RecyclerBaseAdapter<T>(protected var mContext: Context) : Recycle
         mList = list
     }
 
-    fun addItem(item: T, position: Int) {
-        var position = position
+    fun addItem(item: T, index: Int) {
+        var position = index
         if (mList != null && !mList!!.isEmpty()) {
             position = if (position >= 0) position else mList!!.size
             mList!!.add(position, item)
@@ -50,7 +50,7 @@ abstract class RecyclerBaseAdapter<T>(protected var mContext: Context) : Recycle
         return BaseViewHolder(rootView)
     }
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         var item: T? = null
         val holder: BaseViewHolder
         if (viewHolder != null) {

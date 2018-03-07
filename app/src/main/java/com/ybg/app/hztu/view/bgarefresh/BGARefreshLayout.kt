@@ -104,12 +104,23 @@ class BGARefreshLayout @JvmOverloads constructor(context: Context, attrs: Attrib
      */
     private var mIsShowLoadingMoreView = true
 
+    private var mRefreshEnable = true
+    private var mLoadingEnable = true
+
     private val mHandler: Handler
 
     init {
         orientation = LinearLayout.VERTICAL
         mHandler = Handler(Looper.getMainLooper())
         initWholeHeaderView()
+    }
+
+    public fun setRefreshEnable(enable: Boolean) {
+        mRefreshEnable = enable
+    }
+
+    public fun setLoadingEnable(enable: Boolean) {
+        mLoadingEnable = enable
     }
 
     /**
@@ -238,8 +249,8 @@ class BGARefreshLayout @JvmOverloads constructor(context: Context, attrs: Attrib
             mRecyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                     if ((newState == RecyclerView.SCROLL_STATE_IDLE || newState == RecyclerView
-                            .SCROLL_STATE_SETTLING) && shouldHandleRecyclerViewLoadingMore
-                    (mRecyclerView!!)) {
+                                    .SCROLL_STATE_SETTLING) && shouldHandleRecyclerViewLoadingMore
+                            (mRecyclerView!!)) {
                         beginLoadingMore()
                     }
                 }
@@ -324,6 +335,7 @@ class BGARefreshLayout @JvmOverloads constructor(context: Context, attrs: Attrib
      * @return
      */
     private fun shouldHandleLoadingMore(): Boolean {
+        if (!mLoadingEnable) return false
         if (mIsLoadingMore || mCurrentRefreshStatus == RefreshStatus.REFRESHING || mLoadMoreFooterView == null || mDelegate == null) {
             return false
         }
@@ -406,6 +418,7 @@ class BGARefreshLayout @JvmOverloads constructor(context: Context, attrs: Attrib
      * @return
      */
     private fun shouldHandleRefresh(): Boolean {
+        if (!mRefreshEnable) return false
         if (mIsLoadingMore || mCurrentRefreshStatus == RefreshStatus.REFRESHING || mRefreshHeaderView == null || mDelegate == null) {
             return false
         }
@@ -652,6 +665,7 @@ class BGARefreshLayout @JvmOverloads constructor(context: Context, attrs: Attrib
      * 切换到正在刷新状态，会调用delegate的onBGARefreshLayoutBeginRefreshing方法
      */
     fun beginRefreshing() {
+        if (!mRefreshEnable) return
         if (mCurrentRefreshStatus != RefreshStatus.REFRESHING && mDelegate != null) {
             mCurrentRefreshStatus = RefreshStatus.REFRESHING
             changeRefreshHeaderViewToZero()
@@ -702,6 +716,7 @@ class BGARefreshLayout @JvmOverloads constructor(context: Context, attrs: Attrib
      * 开始上拉加载更多，会触发delegate的onBGARefreshLayoutBeginRefreshing方法
      */
     fun beginLoadingMore() {
+        if (!mLoadingEnable) return
         if (!mIsLoadingMore && mLoadMoreFooterView != null && mDelegate != null && mDelegate!!.onBGARefreshLayoutBeginLoadingMore(this)) {
             mIsLoadingMore = true
 

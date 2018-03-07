@@ -11,15 +11,15 @@ import android.view.MenuItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.ybg.app.base.bean.Battery
-import com.ybg.app.base.bean.JSonResultBean
 import com.ybg.app.base.decoration.SpaceItemDecoration
 import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
-import com.ybg.app.base.utils.ToastUtil
 import com.ybg.app.hztu.R
+import com.ybg.app.hztu.activity.battery.SystemMainActivity
 import com.ybg.app.hztu.activity.user.LoginActivity
 import com.ybg.app.hztu.activity.user.UpdateActivity
-import com.ybg.app.hztu.adapter.BatteryItemAdapter
+import com.ybg.app.hztu.adapter.RecyclerBaseAdapter
+import com.ybg.app.hztu.adapter.SystemItemAdapter
 import com.ybg.app.hztu.app.UserApplication
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -27,25 +27,23 @@ class MainActivity : AppCompatActivity() {
 
     private val userApplication = UserApplication.instance!!
 
-    private lateinit var batteryItemAdapter: BatteryItemAdapter
+    private lateinit var systemItemAdapter: SystemItemAdapter
     private var batteryList = ArrayList<Battery>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        batteryItemAdapter = BatteryItemAdapter(this@MainActivity)
-        batteryItemAdapter.setDataList(batteryList)
-        rv_battery_list.adapter = batteryItemAdapter
+        systemItemAdapter = SystemItemAdapter(this@MainActivity)
+        systemItemAdapter.setDataList(batteryList)
+        systemItemAdapter.setOnItemClickListener(systemItemClickListener)
+        rv_battery_list.adapter = systemItemAdapter
 
         val layoutManager = LinearLayoutManager.VERTICAL
         rv_battery_list.layoutManager = LinearLayoutManager(this@MainActivity, layoutManager, false)
         rv_battery_list.itemAnimator = DefaultItemAnimator()
         rv_battery_list.addItemDecoration(SpaceItemDecoration(2))
-    }
 
-    override fun onStart() {
-        super.onStart()
         if (userApplication.hasLogin()) {
             getBatteryList()
         }
@@ -63,17 +61,9 @@ class MainActivity : AppCompatActivity() {
             UpdateActivity.start(this@MainActivity)
             return true
         } else if (id == R.id.action_logout) {
-            SendRequest.userLogout(this@MainActivity, userApplication.token, object : JsonCallback(){
-                override fun onSuccess(code: Int, response: String) {
-                    super.onSuccess(code, response)
-                    logout()
-                }
-
-                override fun onJsonSuccess(data: String) {
-                    super.onJsonSuccess(data)
-                    logout()
-                }
+            SendRequest.userLogout(this@MainActivity, userApplication.token, object : JsonCallback() {
             })
+            logout()
         }
 
         return super.onOptionsItemSelected(item)
@@ -88,24 +78,41 @@ class MainActivity : AppCompatActivity() {
 
     private fun getBatteryList() {
         if (!userApplication.hasLogin()) return
-        SendRequest.getBatteryList(this@MainActivity, userApplication.token, object : JsonCallback(){
+        batteryList.clear()
+        SendRequest.getBatteryBSList(this@MainActivity, userApplication.token, object : JsonCallback() {
             override fun onJsonSuccess(data: String) {
                 super.onJsonSuccess(data)
                 val gson = Gson()
-                batteryList.clear()
-                batteryList.addAll(gson.fromJson<List<Battery>>(data, object : TypeToken<List<Battery>>(){}.type))
-                batteryItemAdapter.setDataList(batteryList)
-                batteryItemAdapter.notifyDataSetChanged()
-            }
-
-            override fun onJsonFail(jsonBean: JSonResultBean) {
-                super.onJsonFail(jsonBean)
-                ToastUtil.show(userApplication, jsonBean.message)
-                if (jsonBean.message.contains("重新登录")) {
-                    logout()
-                }
+                batteryList.addAll(gson.fromJson<List<Battery>>(data, object : TypeToken<List<Battery>>() {}.type))
+                systemItemAdapter.setDataList(batteryList)
+                systemItemAdapter.notifyDataSetChanged()
             }
         })
+        SendRequest.getBatteryDCList(this@MainActivity, userApplication.token, object : JsonCallback() {
+            override fun onJsonSuccess(data: String) {
+                super.onJsonSuccess(data)
+                val gson = Gson()
+                batteryList.addAll(gson.fromJson<List<Battery>>(data, object : TypeToken<List<Battery>>() {}.type))
+                systemItemAdapter.setDataList(batteryList)
+                systemItemAdapter.notifyDataSetChanged()
+            }
+        })
+        SendRequest.getBatteryUPSList(this@MainActivity, userApplication.token, object : JsonCallback() {
+            override fun onJsonSuccess(data: String) {
+                super.onJsonSuccess(data)
+                val gson = Gson()
+                batteryList.addAll(gson.fromJson<List<Battery>>(data, object : TypeToken<List<Battery>>() {}.type))
+                systemItemAdapter.setDataList(batteryList)
+                systemItemAdapter.notifyDataSetChanged()
+            }
+        })
+    }
+
+    private val systemItemClickListener = object : RecyclerBaseAdapter.OnItemClickListener {
+        override fun onItemClick(position: Int) {
+            val battery = batteryList[position]
+            SystemMainActivity.start(this@MainActivity, battery)
+        }
     }
 
     companion object {

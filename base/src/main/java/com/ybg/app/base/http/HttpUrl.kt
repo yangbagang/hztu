@@ -23,37 +23,39 @@ object HttpUrl {
 
     //第一部分，用户操作
     val userLoginUrl: String
-        get() = ROOT_URL + "/userInfo/login"
+        get() = "$ROOT_URL/userInfo/login"
     val userLogoutUrl: String
-        get() = ROOT_URL + "/userInfo/logout"
+        get() = "$ROOT_URL/userInfo/logout"
     val getCaptchaUrl: String
-        get() = ROOT_URL + "/system/getCaptcha"
+        get() = "$ROOT_URL/system/getCaptcha"
     val checkCaptchaUrl: String
-        get() = ROOT_URL + "/system/checkCaptcha"
+        get() = "$ROOT_URL/system/checkCaptcha"
     val userRegisterUrl: String
-        get() = ROOT_URL + "/userInfo/register"
+        get() = "$ROOT_URL/userInfo/register"
     val updateUserInfoUrl: String
-        get() = ROOT_URL + "/userInfo/updateInfo"
+        get() = "$ROOT_URL/userInfo/updateInfo"
     val getUserInfoUrl: String
-        get() = ROOT_URL + "/userInfo/getUserInfo"
+        get() = "$ROOT_URL/userInfo/getUserInfo"
     val updateClientIdUrl: String
-        get() = ROOT_URL + "/userInfo/updateAppToken"
+        get() = "$ROOT_URL/userInfo/updateAppToken"
 
     //第二部分，电池操作
     val batteryBSListUrl: String
-        get() = ROOT_URL + "/battery/listBS"
+        get() = "$ROOT_URL/battery/listBS"
     val batteryUPSListUrl: String
-        get() = ROOT_URL + "/battery/listUPS"
+        get() = "$ROOT_URL/battery/listUPS"
     val batteryDCListUrl: String
-        get() = ROOT_URL + "/battery/listDC"
+        get() = "$ROOT_URL/battery/listDC"
     val getLocationUrl: String
-        get() = ROOT_URL + "/battery/getLocation"
+        get() = "$ROOT_URL/battery/getLocation"
     val updateNameUrl: String
-        get() = ROOT_URL + "/battery/updateName"
+        get() = "$ROOT_URL/battery/updateName"
+    val getBatteryListUrl: String
+        get() = "$ROOT_URL/battery/listDataByUid"
     val batteryDataUrl: String
-        get() = ROOT_URL + "/batteryHistoryData/list"
+        get() = "$ROOT_URL/batteryHistory/list"
     val batteryChartUrl: String
-        get() = ROOT_URL + "/batteryHistoryData/calculate"
+        get() = "$ROOT_URL/batteryHistory/calculate"
 
     //公共方法
     fun getImageUrl(fid: String): String {
@@ -62,7 +64,7 @@ object HttpUrl {
         }
         //val path = Base64Util.getDecodeString(fid)
         //println("path=$path")
-        return FILE_SERVER_PREVIEW + "/" + fid
+        return "$FILE_SERVER_PREVIEW/$fid"
     }
 
     fun getVideoUrl(fid: String): String {
@@ -71,7 +73,7 @@ object HttpUrl {
         }
         //val path = Base64Util.getDecodeString(fid)
         //println("path=$path")
-        return FILE_SERVER_DOWNLOAD + "/" + fid
+        return "$FILE_SERVER_DOWNLOAD/$fid"
     }
 
 }

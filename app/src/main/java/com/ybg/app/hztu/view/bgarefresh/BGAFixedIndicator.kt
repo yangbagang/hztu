@@ -100,7 +100,7 @@ class BGAFixedIndicator @JvmOverloads constructor(context: Context, attrs: Attri
     fun initData(currentTab: Int, viewPager: ViewPager) {
         this.removeAllViews()
         mViewPager = viewPager
-        mTabCount = mViewPager!!.adapter.count
+        mTabCount = mViewPager!!.adapter!!.count
 
         mViewPager!!.setOnPageChangeListener(this)
 
@@ -119,7 +119,7 @@ class BGAFixedIndicator @JvmOverloads constructor(context: Context, attrs: Attri
                 titleTv.setTextColor(mTextColor)
             }
             titleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSizeNormal.toFloat())
-            titleTv.text = mViewPager!!.adapter.getPageTitle(index)
+            titleTv.text = mViewPager!!.adapter!!.getPageTitle(index)
 
             val tabLp = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1f)
             tabLp.gravity = Gravity.CENTER

@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
@@ -92,7 +91,7 @@ class BGAStickyNavLayout(context: Context, attrs: AttributeSet) : LinearLayout(c
             mDirectViewPager = mContentView as ViewPager?
             mDirectViewPager!!.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
                 override fun onPageSelected(position: Int) {
-                    regetNestedContentView()
+                    reGetNestedContentView()
                 }
             })
         } else {
@@ -161,8 +160,8 @@ class BGAStickyNavLayout(context: Context, attrs: AttributeSet) : LinearLayout(c
      * @return
      */
     private // 0表示x，1表示y
-            //            debug("头部视图完全隐藏  navViewTopOnScreenY = " + navViewTopOnScreenY + "   contentOnScreenTopY = " + contentOnScreenTopY);
-            //            debug("头部视图没有完全隐藏  navViewTopOnScreenY = " + navViewTopOnScreenY + "   contentOnScreenTopY = " + contentOnScreenTopY);
+    //            debug("头部视图完全隐藏  navViewTopOnScreenY = " + navViewTopOnScreenY + "   contentOnScreenTopY = " + contentOnScreenTopY);
+    //            debug("头部视图没有完全隐藏  navViewTopOnScreenY = " + navViewTopOnScreenY + "   contentOnScreenTopY = " + contentOnScreenTopY);
     val isHeaderViewCompleteInvisible: Boolean
         get() {
             val location = IntArray(2)
@@ -310,7 +309,7 @@ class BGAStickyNavLayout(context: Context, attrs: AttributeSet) : LinearLayout(c
     private val isViewPagerContentViewToTop: Boolean
         get() {
             if (mNestedContentView == null) {
-                regetNestedContentView()
+                reGetNestedContentView()
             }
 
             if (mDirectNormalView != null) {
@@ -336,11 +335,11 @@ class BGAStickyNavLayout(context: Context, attrs: AttributeSet) : LinearLayout(c
     /**
      * 重新获取嵌套的内容视图
      */
-    private fun regetNestedContentView() {
+    private fun reGetNestedContentView() {
         val currentItem = mDirectViewPager!!.currentItem
         val adapter = mDirectViewPager!!.adapter
         if (adapter is FragmentPagerAdapter || adapter is FragmentStatePagerAdapter) {
-            val item = adapter.instantiateItem(mDirectViewPager, currentItem) as Fragment
+            val item = adapter.instantiateItem(mDirectViewPager!!, currentItem) as Fragment
             mNestedContentView = item.view
 
             // 清空之前的
@@ -392,8 +391,8 @@ class BGAStickyNavLayout(context: Context, attrs: AttributeSet) : LinearLayout(c
     private val mRvOnScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
             if ((newState == RecyclerView.SCROLL_STATE_IDLE || newState == RecyclerView
-                    .SCROLL_STATE_SETTLING) && mRefreshLayout != null && mRefreshLayout!!
-                    .shouldHandleRecyclerViewLoadingMore(recyclerView!!)) {
+                            .SCROLL_STATE_SETTLING) && mRefreshLayout != null && mRefreshLayout!!
+                            .shouldHandleRecyclerViewLoadingMore(recyclerView!!)) {
                 mRefreshLayout!!.beginLoadingMore()
             }
         }
@@ -437,7 +436,7 @@ class BGAStickyNavLayout(context: Context, attrs: AttributeSet) : LinearLayout(c
 
         if (mDirectViewPager != null) {
             if (mNestedContentView == null) {
-                regetNestedContentView()
+                reGetNestedContentView()
             }
 
             if (mNestedNormalView != null) {
@@ -471,7 +470,7 @@ class BGAStickyNavLayout(context: Context, attrs: AttributeSet) : LinearLayout(c
 
         if (mDirectViewPager != null) {
             if (mNestedContentView == null) {
-                regetNestedContentView()
+                reGetNestedContentView()
             }
             ScrollingUtil.scrollToBottom(mNestedScrollView)
             ScrollingUtil.scrollToBottom(mNestedRecyclerView)
