@@ -17,6 +17,7 @@ import com.ybg.app.base.bean.JSonResultBean
 import com.ybg.app.base.decoration.SpaceItemDecoration
 import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
+import com.ybg.app.base.utils.DateUtil
 import com.ybg.app.base.utils.ToastUtil
 import com.ybg.app.hztu.R
 import com.ybg.app.hztu.adapter.BatteryItemAdapter
@@ -85,11 +86,38 @@ class SystemMainActivity : AppCompatActivity() {
         if (intent != null) {
             battery = intent.extras.get("battery") as Battery
             if (battery != null) {
+                //TODO 根据UID不同显示不同图标
+                if (battery!!.uid.startsWith("WLCB")) {
+
+                } else if (battery!!.uid.startsWith("WLCD")) {
+
+                } else if (battery!!.uid.startsWith("WLCU")) {
+
+                }
+
+                if (battery!!.name != "") {
+                    tv_system_name.text = battery!!.name
+                } else {
+                    tv_system_name.text = battery!!.uid
+                }
+                tv_system_value.text = String.format("BI: %f, BTV: %f", battery!!.bi, battery!!.btv)
+
+                getSystemAddress(battery!!.lac, battery!!.cid, 0)
+                tv_system_time.text = DateUtil.getTimeInterval(battery!!.createTime)
                 // 填充数据
                 rl_fresh_layout.beginRefreshing()
             }
         }
     }
+    private fun getSystemAddress(lac: Int, cid: Int, type: Int) {
+        SendRequest.getLocation(this@SystemMainActivity, userApplication.token, lac, cid, type, object :
+                JsonCallback(){
+            override fun onJsonSuccess(data: String) {
+                tv_system_address.text = data
+            }
+        })
+    }
+
 
     private fun getBatteryList() {
         if (!userApplication.hasLogin()) return

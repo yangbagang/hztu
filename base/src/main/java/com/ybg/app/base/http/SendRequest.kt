@@ -154,6 +154,42 @@ object SendRequest {
         OkHttpProxy.post(HttpUrl.batteryChartUrl, tag, params, callback)
     }
 
+    fun getBSDataList(tag: Context, token: String, deviceId: Long, pageSize: Int, pageNum: Int,
+                      callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "pageSize" to "$pageSize", "pageNum" to "$pageNum")
+        OkHttpProxy.post(HttpUrl.bsDataUrl, tag, params, callback)
+    }
+
+    fun getBSSumList(tag: Context, token: String, deviceId: Long, key: String, period: Int,
+                     callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "key" to key, "period" to "$period")
+        OkHttpProxy.post(HttpUrl.bsChartUrl, tag, params, callback)
+    }
+
+    fun getDCDataList(tag: Context, token: String, deviceId: Long, pageSize: Int, pageNum: Int,
+                     callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "pageSize" to "$pageSize", "pageNum" to "$pageNum")
+        OkHttpProxy.post(HttpUrl.dcDataUrl, tag, params, callback)
+    }
+
+    fun getDCSumList(tag: Context, token: String, deviceId: Long, key: String, period: Int,
+                    callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "key" to key, "period" to "$period")
+        OkHttpProxy.post(HttpUrl.dcChartUrl, tag, params, callback)
+    }
+
+    fun getUPSDataList(tag: Context, token: String, deviceId: Long, pageSize: Int, pageNum: Int,
+                     callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "pageSize" to "$pageSize", "pageNum" to "$pageNum")
+        OkHttpProxy.post(HttpUrl.upsDataUrl, tag, params, callback)
+    }
+
+    fun getUPSSumList(tag: Context, token: String, deviceId: Long, key: String, period: Int,
+                    callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "key" to key, "period" to "$period")
+        OkHttpProxy.post(HttpUrl.upsChartUrl, tag, params, callback)
+    }
+
     /**
      * 上传图片文件
      */

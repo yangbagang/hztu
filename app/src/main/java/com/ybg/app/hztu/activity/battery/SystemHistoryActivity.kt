@@ -22,7 +22,7 @@ import com.ybg.app.hztu.adapter.BatteryItemAdapter
 import com.ybg.app.hztu.app.UserApplication
 import com.ybg.app.hztu.view.bgarefresh.BGANormalRefreshViewHolder
 import com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout
-import kotlinx.android.synthetic.main.activity_battery_history.*
+import kotlinx.android.synthetic.main.activity_system_history.*
 
 class SystemHistoryActivity : AppCompatActivity() {
 
@@ -76,34 +76,61 @@ class SystemHistoryActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun getBatteryHistory() {
-        if (!userApplication.hasLogin()) return
-        SendRequest.getBatteryDataList(this@SystemHistoryActivity, userApplication.token, battery!!.id,
-                pageSize, pageNum, object : JsonCallback(){
-            override fun onJsonSuccess(data: String) {
-                super.onJsonSuccess(data)
-                if (pageNum == 1) {
-                    val message = mShowHandler.obtainMessage()
-                    message.what = TYPE_REFRESH
-                    message.obj = data
-                    mShowHandler.sendMessage(message)
-                } else {
-                    val message = mShowHandler.obtainMessage()
-                    message.what = TYPE_LOADMORE
-                    message.obj = data
-                    mShowHandler.sendMessage(message)
-                }
+    private fun getDeviceHistory() {
+        if (userApplication.hasLogin() && battery != null) {
+            val uid = battery!!.uid
+            if (uid.startsWith("WLCB")) {
+                getBSHistory()
+            } else if (uid.startsWith("WLCD")) {
+                getDCHistory()
+            } else if (uid.startsWith("WLCU")) {
+                getUPSHistory()
             }
+        }
+    }
 
-            override fun onJsonFail(jsonBean: JSonResultBean) {
-                super.onJsonFail(jsonBean)
-                rl_fresh_layout.endRefreshing()
-                ToastUtil.show(userApplication, jsonBean.message)
-                if (jsonBean.message.contains("重新登录")) {
-                    logout()
-                }
+    private fun getBSHistory() {
+        if (!userApplication.hasLogin()) return
+        SendRequest.getBSDataList(this@SystemHistoryActivity, userApplication.token, battery!!.id,
+                pageSize, pageNum, jsonCallBack)
+    }
+
+    private fun getDCHistory() {
+        if (!userApplication.hasLogin()) return
+        SendRequest.getDCDataList(this@SystemHistoryActivity, userApplication.token, battery!!.id,
+                pageSize, pageNum, jsonCallBack)
+    }
+
+    private fun getUPSHistory() {
+        if (!userApplication.hasLogin()) return
+        SendRequest.getUPSDataList(this@SystemHistoryActivity, userApplication.token, battery!!.id,
+                pageSize, pageNum, jsonCallBack)
+    }
+
+    private val jsonCallBack = object : JsonCallback(){
+        override fun onJsonSuccess(data: String) {
+            super.onJsonSuccess(data)
+            if (pageNum == 1) {
+                val message = mShowHandler.obtainMessage()
+                message.what = TYPE_REFRESH
+                message.obj = data
+                mShowHandler.sendMessage(message)
+            } else {
+                val message = mShowHandler.obtainMessage()
+                message.what = TYPE_LOADMORE
+                message.obj = data
+                mShowHandler.sendMessage(message)
             }
-        })
+        }
+
+        override fun onJsonFail(jsonBean: JSonResultBean) {
+            super.onJsonFail(jsonBean)
+            rl_fresh_layout.endRefreshing()
+            ToastUtil.show(userApplication, jsonBean.message)
+            if (jsonBean.message.contains("重新登录")) {
+                logout()
+            }
+        }
     }
 
     /**
@@ -144,13 +171,13 @@ class SystemHistoryActivity : AppCompatActivity() {
     private val mDelegate = object : BGARefreshLayout.BGARefreshLayoutDelegate {
         override fun onBGARefreshLayoutBeginRefreshing(refreshLayout: BGARefreshLayout) {
             pageNum = 1
-            getBatteryHistory()
+            getDeviceHistory()
         }
 
         override fun onBGARefreshLayoutBeginLoadingMore(refreshLayout: BGARefreshLayout): Boolean {
             if (hasMore) {
                 pageNum += 1
-                getBatteryHistory()
+                getDeviceHistory()
             } else {
                 ToastUtil.show(userApplication, "没有更多数据!")
                 return false//不显示更多加载

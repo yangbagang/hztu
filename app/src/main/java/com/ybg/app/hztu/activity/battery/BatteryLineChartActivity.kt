@@ -70,7 +70,6 @@ class BatteryLineChartActivity : AppCompatActivity() {
         tv_item_bv.setOnClickListener { setItemValue(0) }
         tv_item_bt.setOnClickListener { setItemValue(1) }
         tv_item_br.setOnClickListener { setItemValue(2) }
-        tv_item_bi.setOnClickListener { setItemValue(3) }
         //统计周期
         tv_period_2.setOnClickListener { setItemPeriod(2) }
         tv_period_3.setOnClickListener { setItemPeriod(3) }
@@ -89,7 +88,6 @@ class BatteryLineChartActivity : AppCompatActivity() {
                 setItemChecked(tv_item_bv)
                 setItemUnChecked(tv_item_bt)
                 setItemUnChecked(tv_item_br)
-                setItemUnChecked(tv_item_bi)
             }
             1 -> {
                 sumItem = "bt"
@@ -97,7 +95,6 @@ class BatteryLineChartActivity : AppCompatActivity() {
                 setItemUnChecked(tv_item_bv)
                 setItemChecked(tv_item_bt)
                 setItemUnChecked(tv_item_br)
-                setItemUnChecked(tv_item_bi)
             }
             2 -> {
                 sumItem = "br"
@@ -105,15 +102,6 @@ class BatteryLineChartActivity : AppCompatActivity() {
                 setItemUnChecked(tv_item_bv)
                 setItemUnChecked(tv_item_bt)
                 setItemChecked(tv_item_br)
-                setItemUnChecked(tv_item_bi)
-            }
-            3 -> {
-                sumItem = "bi"
-                sumScale = 100
-                setItemUnChecked(tv_item_bv)
-                setItemUnChecked(tv_item_bt)
-                setItemUnChecked(tv_item_br)
-                setItemChecked(tv_item_bi)
             }
         }
         getBatterySunData()

@@ -56,6 +56,18 @@ object HttpUrl {
         get() = "$ROOT_URL/batteryHistory/list"
     val batteryChartUrl: String
         get() = "$ROOT_URL/batteryHistory/calculate"
+    val bsDataUrl: String
+        get() = "$ROOT_URL/batteryHistory/listBS"
+    val bsChartUrl: String
+        get() = "$ROOT_URL/batteryHistory/calculateBS"
+    val dcDataUrl: String
+        get() = "$ROOT_URL/batteryHistory/listDC"
+    val dcChartUrl: String
+        get() = "$ROOT_URL/batteryHistory/calculateDC"
+    val upsDataUrl: String
+        get() = "$ROOT_URL/batteryHistory/listUPS"
+    val upsChartUrl: String
+        get() = "$ROOT_URL/batteryHistory/calculateUPS"
 
     //公共方法
     fun getImageUrl(fid: String): String {

@@ -15,43 +15,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <TextView
-            android:id="@+id/tv_item_bv"
-            android:layout_width="60dp"
+            android:id="@+id/tv_item_bi"
+            android:layout_width="70dp"
             android:layout_height="28dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:background="@drawable/square_selected_bg"
             android:gravity="center"
-            android:text="电压"
+            android:text="电池电流"
             android:textSize="14sp"
             android:textColor="@color/selectedColor"/>
         <TextView
-            android:id="@+id/tv_item_bt"
-            android:layout_width="60dp"
+            android:id="@+id/tv_item_btv"
+            android:layout_width="80dp"
             android:layout_height="28dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:background="@drawable/square_unselected_bg"
             android:gravity="center"
-            android:text="温度"
-            android:textSize="14sp"
-            android:textColor="@color/unSelectedColor"/>
-        <TextView
-            android:id="@+id/tv_item_br"
-            android:layout_width="60dp"
-            android:layout_height="28dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:background="@drawable/square_unselected_bg"
-            android:gravity="center"
-            android:text="内阻"
-            android:textSize="14sp"
-            android:textColor="@color/unSelectedColor"/>
-        <TextView
-            android:id="@+id/tv_item_bi"
-            android:layout_width="60dp"
-            android:layout_height="28dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:background="@drawable/square_unselected_bg"
-            android:gravity="center"
-            android:text="电流"
+            android:text="电池组电压"
             android:textSize="14sp"
             android:textColor="@color/unSelectedColor"/>
     </LinearLayout>

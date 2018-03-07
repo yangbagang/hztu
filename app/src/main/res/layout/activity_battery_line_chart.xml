@@ -44,16 +44,6 @@
             android:text="内阻"
             android:textSize="14sp"
             android:textColor="@color/unSelectedColor"/>
-        <TextView
-            android:id="@+id/tv_item_bi"
-            android:layout_width="60dp"
-            android:layout_height="28dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:background="@drawable/square_unselected_bg"
-            android:gravity="center"
-            android:text="电流"
-            android:textSize="14sp"
-            android:textColor="@color/unSelectedColor"/>
     </LinearLayout>
     <!--统计周期-->
     <HorizontalScrollView

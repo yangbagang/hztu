@@ -60,7 +60,7 @@ class Battery : Serializable {
     var hmv = 0f//合母电压
     var kmv = 0f//控母电压
     var oi = 0f//输出电流
-    var alm = ""//报警
+    var alm = 0//报警
     var ex1 = 0f//扩展
     var ex2 = 0f//扩展
     var ex3 = 0f//扩展

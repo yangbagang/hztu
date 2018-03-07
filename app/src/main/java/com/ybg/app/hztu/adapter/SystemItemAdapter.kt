@@ -48,12 +48,13 @@ class SystemItemAdapter(private var context: Context) : RecyclerBaseAdapter<Batt
             val uid = item.uid
             //TODO 根据UID不同显示不同图标
             if (uid.startsWith("WLCB")) {
-                systemValueView?.text = String.format("")
+
             } else if (uid.startsWith("WLCD")) {
-                systemValueView?.text = String.format("")
+
             } else if (uid.startsWith("WLCU")) {
-                systemValueView?.text = String.format("")
+
             }
+            systemValueView?.text = String.format("BI: %f, BTV: %f", item.bi, item.btv)
             val name = item.name
             if (name == "") {
                 systemNameView?.text = uid
@@ -90,7 +91,7 @@ class SystemItemAdapter(private var context: Context) : RecyclerBaseAdapter<Batt
     private fun updateSystemName(uid: String, name: String) {
         SendRequest.updateName(context, userApplication.token, uid, name, object : JsonCallback(){
             override fun onSuccess(code: Int, response: String) {
-                ToastUtil.show(userApplication, "名称不己经更新。")
+                ToastUtil.show(userApplication, "名称己经更新。")
                 systemNameView?.text = name
                 systemNameView?.visibility = View.VISIBLE
                 nameEditText?.visibility = View.GONE

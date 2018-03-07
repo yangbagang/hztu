@@ -17,7 +17,7 @@ import com.ybg.app.base.utils.GsonUtil
 import com.ybg.app.base.utils.ToastUtil
 import com.ybg.app.hztu.R
 import com.ybg.app.hztu.app.UserApplication
-import kotlinx.android.synthetic.main.activity_battery_line_chart.*
+import kotlinx.android.synthetic.main.activity_system_line_chart.*
 
 class SystemLineChartActivity : AppCompatActivity() {
 
@@ -25,7 +25,7 @@ class SystemLineChartActivity : AppCompatActivity() {
 
     private var battery: Battery? = null
 
-    private var sumItem = "bv"
+    private var sumItem = "bi"
     private var sumPeriod = 2
     private var sumScale = 10
 
@@ -67,10 +67,8 @@ class SystemLineChartActivity : AppCompatActivity() {
 
     private fun initEvent() {
         //统计项
-        tv_item_bv.setOnClickListener { setItemValue(0) }
-        tv_item_bt.setOnClickListener { setItemValue(1) }
-        tv_item_br.setOnClickListener { setItemValue(2) }
-        tv_item_bi.setOnClickListener { setItemValue(3) }
+        tv_item_bi.setOnClickListener { setItemValue(0) }
+        tv_item_btv.setOnClickListener { setItemValue(1) }
         //统计周期
         tv_period_2.setOnClickListener { setItemPeriod(2) }
         tv_period_3.setOnClickListener { setItemPeriod(3) }
@@ -78,45 +76,25 @@ class SystemLineChartActivity : AppCompatActivity() {
         tv_period_5.setOnClickListener { setItemPeriod(5) }
         tv_period_6.setOnClickListener { setItemPeriod(6) }
         //统计
-        getBatterySunData()
+        getDeviceSumData()
     }
 
     private fun setItemValue(valueIndex: Int) {
         when (valueIndex) {
             0 -> {
-                sumItem = "bv"
-                sumScale = 100
-                setItemChecked(tv_item_bv)
-                setItemUnChecked(tv_item_bt)
-                setItemUnChecked(tv_item_br)
-                setItemUnChecked(tv_item_bi)
-            }
-            1 -> {
-                sumItem = "bt"
-                sumScale = 10
-                setItemUnChecked(tv_item_bv)
-                setItemChecked(tv_item_bt)
-                setItemUnChecked(tv_item_br)
-                setItemUnChecked(tv_item_bi)
-            }
-            2 -> {
-                sumItem = "br"
-                sumScale = 1000
-                setItemUnChecked(tv_item_bv)
-                setItemUnChecked(tv_item_bt)
-                setItemChecked(tv_item_br)
-                setItemUnChecked(tv_item_bi)
-            }
-            3 -> {
                 sumItem = "bi"
                 sumScale = 100
-                setItemUnChecked(tv_item_bv)
-                setItemUnChecked(tv_item_bt)
-                setItemUnChecked(tv_item_br)
                 setItemChecked(tv_item_bi)
+                setItemUnChecked(tv_item_btv)
+            }
+            1 -> {
+                sumItem = "btv"
+                sumScale = 10
+                setItemUnChecked(tv_item_bi)
+                setItemChecked(tv_item_btv)
             }
         }
-        getBatterySunData()
+        getDeviceSumData()
     }
 
     private fun setItemPeriod(periodIndex: Int) {
@@ -163,7 +141,7 @@ class SystemLineChartActivity : AppCompatActivity() {
                 setItemChecked(tv_period_6)
             }
         }
-        getBatterySunData()
+        getDeviceSumData()
     }
 
     private fun setItemChecked(item: TextView) {
@@ -176,48 +154,59 @@ class SystemLineChartActivity : AppCompatActivity() {
         item.setTextColor(ContextCompat.getColor(this, R.color.unSelectedColor))
     }
 
-    private fun getBatterySunData() {
+    private fun getDeviceSumData() {
         if (!userApplication.hasLogin()) return
         if (battery == null) return
-        SendRequest.getBatterySumList(this@SystemLineChartActivity, userApplication.token, battery!!.id,
-                sumItem, sumPeriod, object : JsonCallback() {
-            override fun onJsonSuccess(data: String) {
-                super.onJsonSuccess(data)
-                val list = GsonUtil.createGson().fromJson<List<ChartItem>>(data, object : TypeToken<List<ChartItem>>() {}.type)
-                xValues.clear()
-                yValues.clear()
-                if (list.isEmpty()) {
-                    ToastUtil.show(userApplication, "没有相关数据")
-                } else {
-                    list.forEach {
-                        xValues.add(it.xValue)
-                        yValues.add(it.yValue)
-                    }
+        val uid = battery!!.uid
+        if (uid.startsWith("WLCB")) {
+            SendRequest.getBSSumList(this@SystemLineChartActivity, userApplication.token, battery!!.id,
+                    sumItem, sumPeriod, jsonCallback)
+        } else if (uid.startsWith("WLCD")) {
+            SendRequest.getDCSumList(this@SystemLineChartActivity, userApplication.token, battery!!.id,
+                    sumItem, sumPeriod, jsonCallback)
+        } else if (uid.startsWith("WLCU")) {
+            SendRequest.getUPSSumList(this@SystemLineChartActivity, userApplication.token, battery!!.id,
+                    sumItem, sumPeriod, jsonCallback)
+        }
+    }
 
-                    lc_chart.setAdapter(object : CurveView.Adapter() {
-                        override fun getLevel(position: Int): Int = (yValues[position] * sumScale).toInt()
-
-                        override fun getCount(): Int = yValues.size
-
-                        override fun getXAxisText(i: Int): String = xValues[i]
-
-                        override fun getMaxLevel(): Int = (yValues.max()!! * sumScale).toInt()
-
-                        override fun getMinLevel(): Int = (yValues.min()!! * sumScale).toInt()
-
-                        override fun onCreateMarks(position: Int): MutableSet<CurveView.Mark> {
-                            val marks = HashSet<CurveView.Mark>()
-                            val mark = CurveView.Mark("${yValues[position]}", CurveView.Gravity.BOTTOM or CurveView.Gravity.CENTER_HORIZONTAL, 0, 20, 0, 0);
-
-                            marks.add(mark)
-                            return marks;
-                        }
-                    })
-
-                    lc_chart.invalidate()
+    private val jsonCallback = object : JsonCallback() {
+        override fun onJsonSuccess(data: String) {
+            super.onJsonSuccess(data)
+            val list = GsonUtil.createGson().fromJson<List<ChartItem>>(data, object : TypeToken<List<ChartItem>>() {}.type)
+            xValues.clear()
+            yValues.clear()
+            if (list.isEmpty()) {
+                ToastUtil.show(userApplication, "没有相关数据")
+            } else {
+                list.forEach {
+                    xValues.add(it.xValue)
+                    yValues.add(it.yValue)
                 }
+
+                lc_chart.setAdapter(object : CurveView.Adapter() {
+                    override fun getLevel(position: Int): Int = (yValues[position] * sumScale).toInt()
+
+                    override fun getCount(): Int = yValues.size
+
+                    override fun getXAxisText(i: Int): String = xValues[i]
+
+                    override fun getMaxLevel(): Int = (yValues.max()!! * sumScale).toInt()
+
+                    override fun getMinLevel(): Int = (yValues.min()!! * sumScale).toInt()
+
+                    override fun onCreateMarks(position: Int): MutableSet<CurveView.Mark> {
+                        val marks = HashSet<CurveView.Mark>()
+                        val mark = CurveView.Mark("${yValues[position]}", CurveView.Gravity.BOTTOM or CurveView.Gravity.CENTER_HORIZONTAL, 0, 20, 0, 0);
+
+                        marks.add(mark)
+                        return marks;
+                    }
+                })
+
+                lc_chart.invalidate()
             }
-        })
+        }
     }
 
     internal data class ChartItem(var xValue: String, var yValue: Float)

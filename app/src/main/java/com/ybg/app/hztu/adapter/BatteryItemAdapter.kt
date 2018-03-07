@@ -17,7 +17,6 @@ class BatteryItemAdapter(private var context: Context) : RecyclerBaseAdapter<Bat
     private var bv: TextView? = null
     private var bt: TextView? = null
     private var br: TextView? = null
-    private var bi: TextView? = null
     private var time: TextView? = null
 
     override val rootResource: Int
@@ -28,7 +27,6 @@ class BatteryItemAdapter(private var context: Context) : RecyclerBaseAdapter<Bat
         bv = viewHolder.getView(R.id.tv_bv)
         bt = viewHolder.getView(R.id.tv_bt)
         br = viewHolder.getView(R.id.tv_br)
-        bi = viewHolder.getView(R.id.tv_bi)
         time = viewHolder.getView(R.id.tv_time)
         if (num != null) {
             num!!.text = "${item?.num}"
@@ -54,12 +52,6 @@ class BatteryItemAdapter(private var context: Context) : RecyclerBaseAdapter<Bat
                 showLineChart(item)
             }
         }
-        if (bi != null) {
-            bi!!.text = "${item?.bi}"
-            bi!!.setOnClickListener {
-                showLineChart(item)
-            }
-        }
         if (time != null) {
             time!!.text = DateUtil.getTimeInterval("${item?.createTime}")
         }
@@ -68,13 +60,13 @@ class BatteryItemAdapter(private var context: Context) : RecyclerBaseAdapter<Bat
 
     private fun showDetail(item: Battery?) {
         if (item != null) {
-            BatteryDetailActivity.start(mContext, item!!)
+            BatteryDetailActivity.start(mContext, item)
         }
     }
 
     private fun showLineChart(item: Battery?) {
         if (item != null) {
-            BatteryLineChartActivity.start(mContext, item!!)
+            BatteryLineChartActivity.start(mContext, item)
         }
     }
 }

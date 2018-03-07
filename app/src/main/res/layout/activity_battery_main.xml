@@ -26,16 +26,8 @@
                 app:layout_collapseParallaxMultiplier="0.7"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/tv_system_name"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
-                    android:gravity="center"
-                    android:text="用户名"
-                    android:textSize="17sp"
-                    android:textColor="@android:color/white"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -46,9 +38,50 @@
                         android:id="@+id/iv_system"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
+                        android:layout_alignParentStart="true"
                         android:src="@mipmap/hzt"/>
-
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_system_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/iv_system"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="5dp"
+                        android:text="用户名"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white"/>
+                    <TextView
+                    android:id="@+id/tv_system_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/iv_system"
+                    android:layout_below="@id/tv_system_name"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="xx"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"/>
+                    <TextView
+                        android:id="@+id/tv_system_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/iv_system"
+                        android:layout_below="@id/tv_system_value"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="xx"
+                        android:textSize="12sp"
+                        android:textColor="@android:color/white"/>
+                    <TextView
+                        android:id="@+id/tv_system_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:text="1"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white"/>
+                </RelativeLayout>
             </LinearLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
         <LinearLayout
