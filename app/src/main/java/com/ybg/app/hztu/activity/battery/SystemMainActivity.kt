@@ -76,6 +76,12 @@ class SystemMainActivity : AppCompatActivity() {
             }
         }
 
+        detailButton.setOnClickListener {
+            if (battery != null) {
+                SystemDetailActivity.start(this@SystemMainActivity, battery!!)
+            }
+        }
+
         if (intent != null) {
             battery = intent.extras.get("battery") as Battery
             if (battery != null) {

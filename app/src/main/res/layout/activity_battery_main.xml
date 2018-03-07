@@ -128,4 +128,13 @@
 
     </com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/detailButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:src="@drawable/ic_more"
+        app:layout_anchor="@id/appBarLayout"
+        app:layout_anchorGravity="end|bottom"/>
+
 </android.support.design.widget.CoordinatorLayout>
