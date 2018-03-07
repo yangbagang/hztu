@@ -25,7 +25,7 @@ import com.ybg.app.hztu.adapter.RecyclerBaseAdapter
 import com.ybg.app.hztu.app.UserApplication
 import com.ybg.app.hztu.view.bgarefresh.BGANormalRefreshViewHolder
 import com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout
-import kotlinx.android.synthetic.main.activity_battery_main.*
+import kotlinx.android.synthetic.main.activity_system_main.*
 
 class SystemMainActivity : AppCompatActivity() {
 
@@ -44,7 +44,7 @@ class SystemMainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_battery_main)
+        setContentView(R.layout.activity_system_main)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
