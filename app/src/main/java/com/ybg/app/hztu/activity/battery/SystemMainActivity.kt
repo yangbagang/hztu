@@ -109,15 +109,17 @@ class SystemMainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun getSystemAddress(lac: Int, cid: Int, type: Int) {
         SendRequest.getLocation(this@SystemMainActivity, userApplication.token, lac, cid, type, object :
                 JsonCallback(){
             override fun onJsonSuccess(data: String) {
-                tv_system_address.text = data
+                val address = data.split(";")
+                tv_system_address1.text = address[0]
+                tv_system_address2.text = address[1]
             }
         })
     }
-
 
     private fun getBatteryList() {
         if (!userApplication.hasLogin()) return

@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/iv_system"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:layout_marginStart="8dp"
         android:text="WLCB00000001"/>
     <EditText
@@ -68,8 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="52dp"
         android:layout_below="@id/iv_system"
         android:text="xxxxxxxxxxxxxxxx"/>
     <View

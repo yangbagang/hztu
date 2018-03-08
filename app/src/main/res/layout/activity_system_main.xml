@@ -57,19 +57,27 @@
                     android:layout_toEndOf="@id/iv_system"
                     android:layout_below="@id/tv_system_name"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
                     android:text="xx"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textColor="@android:color/white"/>
                     <TextView
-                        android:id="@+id/tv_system_address"
+                        android:id="@+id/tv_system_address1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/iv_system"
                         android:layout_below="@id/tv_system_value"
                         android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:text="xx"
+                        android:text="正在获取地址"
+                        android:textSize="12sp"
+                        android:textColor="@android:color/white"/>
+                    <TextView
+                        android:id="@+id/tv_system_address2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/iv_system"
+                        android:layout_below="@id/tv_system_address1"
+                        android:layout_marginStart="5dp"
+                        android:text="正在获取地址"
                         android:textSize="12sp"
                         android:textColor="@android:color/white"/>
                     <TextView
@@ -86,7 +94,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
         <LinearLayout
             android:id="@+id/ll_battery_title"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -126,15 +134,6 @@
                 android:gravity="center"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:text="内阻"
-                android:textColor="@android:color/white"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:text="电流"
                 android:textColor="@android:color/white"/>
 
             <TextView

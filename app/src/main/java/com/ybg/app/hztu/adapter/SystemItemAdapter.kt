@@ -54,7 +54,7 @@ class SystemItemAdapter(private var context: Context) : RecyclerBaseAdapter<Batt
             } else if (uid.startsWith("WLCU")) {
 
             }
-            systemValueView?.text = String.format("BI: %f, BTV: %f", item.bi, item.btv)
+            systemValueView?.text = "BI: ${item.bi}, BTV: ${item.btv}"
             val name = item.name
             if (name == "") {
                 systemNameView?.text = uid
@@ -84,6 +84,7 @@ class SystemItemAdapter(private var context: Context) : RecyclerBaseAdapter<Batt
                 nameCancelBtn?.visibility = View.GONE
             }
             systemUpdateTimeView?.text = DateUtil.getTimeInterval(item.createTime)
+            //TODO 取地址有时不显示。
             getSystemAddress(item.lac, item.cid, 0)
         }
     }
@@ -108,7 +109,9 @@ class SystemItemAdapter(private var context: Context) : RecyclerBaseAdapter<Batt
     private fun getSystemAddress(lac: Int, cid: Int, type: Int) {
         SendRequest.getLocation(context, userApplication.token, lac, cid, type, object : JsonCallback(){
             override fun onJsonSuccess(data: String) {
-                systemAddressView?.text = data
+                val address = data.split(";")[0]
+                println(address)
+                systemAddressView?.text = address
             }
         })
     }
