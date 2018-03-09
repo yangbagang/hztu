@@ -86,6 +86,7 @@ class SystemItemAdapter(private var context: Context) : RecyclerBaseAdapter<Batt
             systemUpdateTimeView?.text = DateUtil.getTimeInterval(item.createTime)
             //TODO 取地址有时不显示。
             getSystemAddress(item.lac, item.cid, 0)
+            viewHolder.setIsRecyclable(false)
         }
     }
 
@@ -115,4 +116,5 @@ class SystemItemAdapter(private var context: Context) : RecyclerBaseAdapter<Batt
             }
         })
     }
+
 }
