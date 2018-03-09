@@ -4,22 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.ybg.app.base.bean.Battery
 import com.ybg.app.base.bean.JSonResultBean
-import com.ybg.app.base.decoration.SpaceItemDecoration
 import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
 import com.ybg.app.hztu.R
 import com.ybg.app.hztu.activity.battery.SystemMainActivity
 import com.ybg.app.hztu.activity.user.LoginActivity
 import com.ybg.app.hztu.activity.user.UpdateActivity
-import com.ybg.app.hztu.adapter.RecyclerBaseAdapter
 import com.ybg.app.hztu.adapter.SystemItemAdapter
 import com.ybg.app.hztu.app.UserApplication
 import kotlinx.android.synthetic.main.activity_main.*
@@ -37,13 +33,11 @@ class MainActivity : AppCompatActivity() {
 
         systemItemAdapter = SystemItemAdapter(this@MainActivity)
         systemItemAdapter.setDataList(batteryList)
-        systemItemAdapter.setOnItemClickListener(systemItemClickListener)
-        rv_battery_list.adapter = systemItemAdapter
-
-        val layoutManager = LinearLayoutManager.VERTICAL
-        rv_battery_list.layoutManager = LinearLayoutManager(this@MainActivity, layoutManager, false)
-        rv_battery_list.itemAnimator = DefaultItemAnimator()
-        rv_battery_list.addItemDecoration(SpaceItemDecoration(2))
+        lv_battery_list.adapter = systemItemAdapter
+        lv_battery_list.setOnItemClickListener { adapterView, view, i, l ->
+            val battery = batteryList[i]
+            SystemMainActivity.start(this@MainActivity, battery)
+        }
 
         if (userApplication.hasLogin()) {
             getBatteryList()
@@ -83,13 +77,6 @@ class MainActivity : AppCompatActivity() {
         SendRequest.getBatteryBSList(this@MainActivity, userApplication.token, jsonCallback)
         SendRequest.getBatteryDCList(this@MainActivity, userApplication.token, jsonCallback)
         SendRequest.getBatteryUPSList(this@MainActivity, userApplication.token, jsonCallback)
-    }
-
-    private val systemItemClickListener = object : RecyclerBaseAdapter.OnItemClickListener {
-        override fun onItemClick(position: Int) {
-            val battery = batteryList[position]
-            SystemMainActivity.start(this@MainActivity, battery)
-        }
     }
 
     private val jsonCallback = object : JsonCallback() {

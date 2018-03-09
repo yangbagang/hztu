@@ -8,49 +8,50 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_centerVertical="true"
         android:src="@mipmap/hzt"/>
-    <TextView
-        android:id="@+id/tv_system_name"
+    <LinearLayout
+        android:id="@+id/ll_system_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/iv_system"
-        android:layout_marginTop="2dp"
         android:layout_marginStart="8dp"
-        android:text="WLCB00000001"/>
-    <EditText
-        android:id="@+id/et_system_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/iv_system"
-        android:layout_marginStart="8dp"
-        android:text="WLCB00000001"
-        android:hint="请输入自定义名称"
-        android:visibility="gone"/>
-    <Button
-        android:id="@+id/btn_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/et_system_name"
-        android:text="更新"
-        android:visibility="gone"/>
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/btn_update"
-        android:layout_marginStart="5dp"
-        android:text="取消"
-        android:visibility="gone"/>
+        android:layout_marginTop="3dp"
+        android:layout_toEndOf="@id/iv_system">
+        <TextView
+            android:id="@+id/tv_system_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WLCB00000001"/>
+        <EditText
+            android:id="@+id/et_system_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WLCB00000001"
+            android:hint="请输入自定义名称"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/btn_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更新"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="取消"
+            android:visibility="gone"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tv_system_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/iv_system"
         android:layout_marginStart="8dp"
-        android:layout_above="@+id/tv_system_value"
+        android:layout_below="@id/ll_system_name"
         android:text="正在获取地址"
         android:textColor="#666666"
         android:textSize="12sp"/>
@@ -67,9 +68,10 @@
         android:id="@+id/tv_system_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="52dp"
-        android:layout_below="@id/iv_system"
+        android:layout_toEndOf="@id/iv_system"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="3dp"
+        android:layout_below="@id/tv_system_address"
         android:text="xxxxxxxxxxxxxxxx"/>
     <View
         android:id="@+id/v_splite"

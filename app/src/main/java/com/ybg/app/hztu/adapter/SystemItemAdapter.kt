@@ -1,11 +1,10 @@
 package com.ybg.app.hztu.adapter
 
-import android.content.Context
+import android.app.Activity
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.ViewGroup
+import android.widget.*
 import com.ybg.app.base.bean.Battery
 import com.ybg.app.base.bean.JSonResultBean
 import com.ybg.app.base.http.SendRequest
@@ -18,87 +17,115 @@ import com.ybg.app.hztu.app.UserApplication
 /**
  * Created by ybg on 18-3-6.
  */
-class SystemItemAdapter(private var context: Context) : RecyclerBaseAdapter<Battery>(context) {
+class SystemItemAdapter(private var mContext: Activity) : BaseAdapter() {
 
     private val userApplication = UserApplication.instance!!
 
-    private var systemImageView: ImageView? = null
-    private var systemNameView: TextView? = null
-    private var systemUpdateTimeView: TextView? = null
-    private var systemValueView: TextView? = null
-    private var nameEditText: EditText? = null
-    private var nameUpdateBtn: Button? = null
-    private var nameCancelBtn: Button? = null
-    private var systemAddressView: TextView? = null
+    private var inflater: LayoutInflater? = null
 
-    override val rootResource: Int
-        get() = R.layout.item_system
+    var mList: List<Battery>? = null
 
-    override fun getView(viewHolder: BaseViewHolder, item: Battery?, position: Int) {
-        systemImageView = viewHolder.getView(R.id.iv_system)
-        systemNameView = viewHolder.getView(R.id.tv_system_name)
-        systemUpdateTimeView = viewHolder.getView(R.id.tv_update_time)
-        systemValueView = viewHolder.getView(R.id.tv_system_value)
-        nameEditText = viewHolder.getView(R.id.et_system_name)
-        nameUpdateBtn = viewHolder.getView(R.id.btn_update)
-        nameCancelBtn = viewHolder.getView(R.id.btn_cancel)
-        systemAddressView = viewHolder.getView(R.id.tv_system_address)
-
-        if (item != null) {
-            val uid = item.uid
-            //TODO 根据UID不同显示不同图标
-            if (uid.startsWith("WLCB")) {
-
-            } else if (uid.startsWith("WLCD")) {
-
-            } else if (uid.startsWith("WLCU")) {
-
-            }
-            systemValueView?.text = "BI: ${item.bi}, BTV: ${item.btv}"
-            val name = item.name
-            if (name == "") {
-                systemNameView?.text = uid
-                nameEditText?.setText(uid)
-            } else {
-                systemNameView?.text = name
-                nameEditText?.setText(name)
-            }
-            systemNameView?.setOnClickListener {
-                systemNameView?.visibility = View.GONE
-                nameEditText?.visibility = View.VISIBLE
-                nameUpdateBtn?.visibility = View.VISIBLE
-                nameCancelBtn?.visibility = View.VISIBLE
-            }
-            nameUpdateBtn?.setOnClickListener {
-                val nameValue = nameEditText?.text?.toString()
-                if (nameValue == null || nameValue == "") {
-                    ToastUtil.show(userApplication, "自定义名称不能为空。")
-                } else {
-                    updateSystemName(uid, nameValue)
-                }
-            }
-            nameCancelBtn?.setOnClickListener {
-                systemNameView?.visibility = View.VISIBLE
-                nameEditText?.visibility = View.GONE
-                nameUpdateBtn?.visibility = View.GONE
-                nameCancelBtn?.visibility = View.GONE
-            }
-            systemUpdateTimeView?.text = DateUtil.getTimeInterval(item.createTime)
-            //TODO 取地址有时不显示。
-            getSystemAddress(item.lac, item.cid, 0)
-            viewHolder.setIsRecyclable(false)
+    fun setDataList(list: List<Battery>) {
+        mList = list
+    }
+    override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
+        var convertView = view
+        var viewHolder: ViewHolder? = null
+        if (convertView == null) {
+            inflater = LayoutInflater.from(mContext)
+            convertView = inflater!!.inflate(R.layout.item_system, parent, false)
+            viewHolder = ViewHolder()
+            initViewHolder(viewHolder, convertView)
+        } else {
+            viewHolder = convertView.tag as ViewHolder?
         }
+
+        val battery = getItem(position)
+        val uid = battery.uid
+        //TODO 根据UID不同显示不同图标
+        if (uid.startsWith("WLCB")) {
+
+        } else if (uid.startsWith("WLCD")) {
+
+        } else if (uid.startsWith("WLCU")) {
+
+        }
+        viewHolder?.systemValueView?.text = "BI: ${battery.bi}, BTV: ${battery.btv}"
+        val name = battery.name
+        if (name == "") {
+            viewHolder?.systemNameView?.text = uid
+            viewHolder?.nameEditText?.setText(uid)
+        } else {
+            viewHolder?.systemNameView?.text = name
+            viewHolder?.nameEditText?.setText(name)
+        }
+        viewHolder?.systemNameView?.setOnClickListener {
+            viewHolder.systemNameView?.visibility = View.GONE
+            viewHolder.nameEditText?.visibility = View.VISIBLE
+            viewHolder.nameUpdateBtn?.visibility = View.VISIBLE
+            viewHolder.nameCancelBtn?.visibility = View.VISIBLE
+        }
+        viewHolder?.nameUpdateBtn?.setOnClickListener {
+            val nameValue = viewHolder.nameEditText?.text?.toString()
+            if (nameValue == null || nameValue == "") {
+                ToastUtil.show(userApplication, "自定义名称不能为空。")
+            } else {
+                updateSystemName(viewHolder, uid, nameValue, battery)
+            }
+        }
+        viewHolder?.nameCancelBtn?.setOnClickListener {
+            viewHolder.systemNameView?.visibility = View.VISIBLE
+            viewHolder.nameEditText?.visibility = View.GONE
+            viewHolder.nameUpdateBtn?.visibility = View.GONE
+            viewHolder.nameCancelBtn?.visibility = View.GONE
+        }
+        viewHolder?.systemUpdateTimeView?.text = DateUtil.getTimeInterval(battery.createTime)
+
+        getSystemAddress(viewHolder, battery.lac, battery.cid, 0)
+
+        return convertView!!
     }
 
-    private fun updateSystemName(uid: String, name: String) {
-        SendRequest.updateName(context, userApplication.token, uid, name, object : JsonCallback(){
+    override fun getItem(position: Int): Battery = mList!![position]
+
+    override fun getItemId(position: Int): Long = mList!![position].id
+
+    override fun getCount(): Int = mList!!.size
+
+    private fun initViewHolder(viewHolder: ViewHolder, convertView: View?) {
+        viewHolder.systemImageView = convertView?.findViewById<ImageView>(R.id.iv_system)
+        viewHolder.systemNameView = convertView?.findViewById(R.id.tv_system_name)
+        viewHolder.systemUpdateTimeView = convertView?.findViewById(R.id.tv_update_time)
+        viewHolder.systemValueView = convertView?.findViewById(R.id.tv_system_value)
+        viewHolder.nameEditText = convertView?.findViewById(R.id.et_system_name)
+        viewHolder.nameUpdateBtn = convertView?.findViewById(R.id.btn_update)
+        viewHolder.nameCancelBtn = convertView?.findViewById(R.id.btn_cancel)
+        viewHolder.systemAddressView = convertView?.findViewById(R.id.tv_system_address)
+
+        convertView?.tag = viewHolder
+    }
+
+    inner class ViewHolder {
+        internal var systemImageView: ImageView? = null
+        internal var systemNameView: TextView? = null
+        internal var systemUpdateTimeView: TextView? = null
+        internal var systemValueView: TextView? = null
+        internal var nameEditText: EditText? = null
+        internal var nameUpdateBtn: Button? = null
+        internal var nameCancelBtn: Button? = null
+        internal var systemAddressView: TextView? = null
+    }
+
+    private fun updateSystemName(viewHolder: ViewHolder, uid: String, name: String, battery: Battery) {
+        SendRequest.updateName(mContext, userApplication.token, uid, name, object : JsonCallback(){
             override fun onSuccess(code: Int, response: String) {
                 ToastUtil.show(userApplication, "名称己经更新。")
-                systemNameView?.text = name
-                systemNameView?.visibility = View.VISIBLE
-                nameEditText?.visibility = View.GONE
-                nameUpdateBtn?.visibility = View.GONE
-                nameCancelBtn?.visibility = View.GONE
+                battery.name = name
+                viewHolder.systemNameView?.text = name
+                viewHolder.systemNameView?.visibility = View.VISIBLE
+                viewHolder.nameEditText?.visibility = View.GONE
+                viewHolder.nameUpdateBtn?.visibility = View.GONE
+                viewHolder.nameCancelBtn?.visibility = View.GONE
             }
 
             override fun onJsonFail(jsonBean: JSonResultBean) {
@@ -107,12 +134,11 @@ class SystemItemAdapter(private var context: Context) : RecyclerBaseAdapter<Batt
         })
     }
 
-    private fun getSystemAddress(lac: Int, cid: Int, type: Int) {
-        SendRequest.getLocation(context, userApplication.token, lac, cid, type, object : JsonCallback(){
+    private fun getSystemAddress(viewHolder: ViewHolder?, lac: Int, cid: Int, type: Int) {
+        SendRequest.getLocation(mContext, userApplication.token, lac, cid, type, object : JsonCallback(){
             override fun onJsonSuccess(data: String) {
                 val address = data.split(";")[0]
-                println(address)
-                systemAddressView?.text = address
+                viewHolder?.systemAddressView?.text = address
             }
         })
     }

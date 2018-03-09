@@ -100,7 +100,7 @@ class SystemMainActivity : AppCompatActivity() {
                 } else {
                     tv_system_name.text = battery!!.uid
                 }
-                tv_system_value.text = String.format("BI: %f, BTV: %f", battery!!.bi, battery!!.btv)
+                tv_system_value.text = "BI: ${battery!!.bi}, BTV: ${battery!!.btv}"
 
                 getSystemAddress(battery!!.lac, battery!!.cid, 0)
                 tv_system_time.text = DateUtil.getTimeInterval(battery!!.createTime)

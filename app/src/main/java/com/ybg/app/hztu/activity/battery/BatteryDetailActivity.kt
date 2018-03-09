@@ -29,7 +29,9 @@ class BatteryDetailActivity : AppCompatActivity() {
             if (battery != null) {
                 // 填充数据
                 ll_battery_values.removeAllViews()
-                ll_battery_values.addView(getValueView("ID", "${battery!!.id}"))
+                ll_battery_values.addView(getValueView("BV(电池电压)", "${battery!!.bv}"))
+                ll_battery_values.addView(getValueView("BT(电池温度)", "${battery!!.bt}"))
+                ll_battery_values.addView(getValueView("BR(电池内阻)", "${battery!!.br}"))
             }
         }
     }

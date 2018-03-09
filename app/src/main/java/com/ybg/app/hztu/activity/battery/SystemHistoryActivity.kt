@@ -18,7 +18,7 @@ import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
 import com.ybg.app.base.utils.ToastUtil
 import com.ybg.app.hztu.R
-import com.ybg.app.hztu.adapter.BatteryItemAdapter
+import com.ybg.app.hztu.adapter.DeviceItemAdapter
 import com.ybg.app.hztu.app.UserApplication
 import com.ybg.app.hztu.view.bgarefresh.BGANormalRefreshViewHolder
 import com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout
@@ -28,7 +28,7 @@ class SystemHistoryActivity : AppCompatActivity() {
 
     private val userApplication = UserApplication.instance!!
 
-    private lateinit var batteryItemAdapter: BatteryItemAdapter
+    private lateinit var deviceItemAdapter: DeviceItemAdapter
     private var batteryList = ArrayList<Battery>()
 
     private var battery: Battery? = null
@@ -46,9 +46,9 @@ class SystemHistoryActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        batteryItemAdapter = BatteryItemAdapter(this@SystemHistoryActivity)
-        batteryItemAdapter.setDataList(batteryList)
-        rv_battery_list.adapter = batteryItemAdapter
+        deviceItemAdapter = DeviceItemAdapter(this@SystemHistoryActivity)
+        deviceItemAdapter.setDataList(batteryList)
+        rv_battery_list.adapter = deviceItemAdapter
 
         val layoutManager = LinearLayoutManager.VERTICAL
         rv_battery_list.layoutManager = LinearLayoutManager(this@SystemHistoryActivity, layoutManager, false)
@@ -159,8 +159,8 @@ class SystemHistoryActivity : AppCompatActivity() {
                 }
             }
             println(batteryList.size)
-            batteryItemAdapter.setDataList(batteryList)
-            batteryItemAdapter.notifyDataSetChanged()
+            deviceItemAdapter.setDataList(batteryList)
+            deviceItemAdapter.notifyDataSetChanged()
         }
     }
 
