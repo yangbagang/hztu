@@ -9,16 +9,16 @@ object HttpUrl {
 
     //全局定义
     //开发服务器地址
-    private val API_HOST_DEBUG = "http://192.168.12.99:8080/hztua"
+    private const val API_HOST_DEBUG = "http://192.168.12.99:8080/hztua"
     //生产服务器地址
-    private val API_HOST_PRODUCT = "http://47.100.22.227:8080/hztua"
+    private const val API_HOST_PRODUCT = "http://47.100.22.227:8080/hztua"
     //上传
-    val FILE_SERVER_PIC_UPLOAD = "http://47.100.22.227:8080/fileserver/file/upload3"
-    val FILE_SERVER_VIDEO_UPLOAD = "http://47.100.22.227:8080/fileserver/file/upload"
+    const val FILE_SERVER_PIC_UPLOAD = "http://47.100.22.227:8080/fileserver/file/upload3"
+    const val FILE_SERVER_VIDEO_UPLOAD = "http://47.100.22.227:8080/fileserver/file/upload"
     //预览
-    private val FILE_SERVER_PREVIEW = "http://47.100.22.227:8080/fileserver/file/preview"
+    private const val FILE_SERVER_PREVIEW = "http://47.100.22.227:8080/fileserver/file/preview"
     //下载
-    private val FILE_SERVER_DOWNLOAD = "http://47.100.22.227:8080/fileserver/file/download"
+    private const val FILE_SERVER_DOWNLOAD = "http://47.100.22.227:8080/fileserver/file/download"
     private val ROOT_URL = if (AppConstant.isDebug) API_HOST_DEBUG else API_HOST_PRODUCT
 
     //第一部分，用户操作
