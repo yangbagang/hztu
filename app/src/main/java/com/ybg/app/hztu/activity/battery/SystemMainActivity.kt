@@ -114,9 +114,14 @@ class SystemMainActivity : AppCompatActivity() {
         SendRequest.getLocation(this@SystemMainActivity, userApplication.token, lac, cid, type, object :
                 JsonCallback(){
             override fun onJsonSuccess(data: String) {
-                val address = data.split(";")
-                tv_system_address1.text = address[0]
-                tv_system_address2.text = address[1]
+                if (data != "" && data.contains(";")) {
+                    val address = data.split(";")
+                    tv_system_address1.text = address[0]
+                    tv_system_address2.text = address[1]
+                } else {
+                    tv_system_address1.text = ""
+                    tv_system_address2.text = ""
+                }
             }
         })
     }

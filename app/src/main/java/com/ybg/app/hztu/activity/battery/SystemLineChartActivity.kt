@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import com.google.gson.reflect.TypeToken
@@ -45,21 +44,11 @@ class SystemLineChartActivity : AppCompatActivity() {
         initEvent()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.detail, menu)
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 return true
-            }
-            R.id.action_detail -> {
-                if (battery != null) {
-                    BatteryHistoryActivity.start(this@SystemLineChartActivity, battery!!)
-                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -182,6 +171,7 @@ class SystemLineChartActivity : AppCompatActivity() {
                 list.forEach {
                     xValues.add(it.xValue)
                     yValues.add(it.yValue)
+                    println("xValue=${it.xValue}, yValue=${it.yValue}")
                 }
 
                 lc_chart.setAdapter(object : CurveView.Adapter() {
@@ -191,7 +181,13 @@ class SystemLineChartActivity : AppCompatActivity() {
 
                     override fun getXAxisText(i: Int): String = xValues[i]
 
-                    override fun getMaxLevel(): Int = (yValues.max()!! * sumScale).toInt()
+                    override fun getMaxLevel(): Int {
+                        var max = yValues.max()!!.toInt()
+                        if (yValues.min() == yValues.max()) {
+                            max = yValues.max()!!.toInt() + 1
+                        }
+                        return max
+                    }
 
                     override fun getMinLevel(): Int = (yValues.min()!! * sumScale).toInt()
 
