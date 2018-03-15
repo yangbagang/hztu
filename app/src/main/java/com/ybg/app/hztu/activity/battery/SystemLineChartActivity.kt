@@ -42,6 +42,8 @@ class SystemLineChartActivity : AppCompatActivity() {
         }
 
         initEvent()
+
+        lc_chart.setAdapter(adapter)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -167,41 +169,44 @@ class SystemLineChartActivity : AppCompatActivity() {
             yValues.clear()
             if (list.isEmpty()) {
                 ToastUtil.show(userApplication, "没有相关数据")
-            } else {
-                list.forEach {
-                    xValues.add(it.xValue)
-                    yValues.add(it.yValue)
-                    println("xValue=${it.xValue}, yValue=${it.yValue}")
-                }
-
-                lc_chart.setAdapter(object : CurveView.Adapter() {
-                    override fun getLevel(position: Int): Int = (yValues[position] * sumScale).toInt()
-
-                    override fun getCount(): Int = yValues.size
-
-                    override fun getXAxisText(i: Int): String = xValues[i]
-
-                    override fun getMaxLevel(): Int {
-                        var max = yValues.max()!!.toInt()
-                        if (yValues.min() == yValues.max()) {
-                            max = yValues.max()!!.toInt() + 1
-                        }
-                        return max
-                    }
-
-                    override fun getMinLevel(): Int = (yValues.min()!! * sumScale).toInt()
-
-                    override fun onCreateMarks(position: Int): MutableSet<CurveView.Mark> {
-                        val marks = HashSet<CurveView.Mark>()
-                        val mark = CurveView.Mark("${yValues[position]}", CurveView.Gravity.BOTTOM or CurveView.Gravity.CENTER_HORIZONTAL, 0, 20, 0, 0);
-
-                        marks.add(mark)
-                        return marks;
-                    }
-                })
-
-                lc_chart.invalidate()
             }
+            list.forEach {
+                xValues.add(it.xValue)
+                yValues.add(it.yValue)
+                println("xValue=${it.xValue}, yValue=${it.yValue}")
+            }
+
+            adapter.notifyDataSetChanged()
+            lc_chart.invalidate()
+        }
+    }
+
+    private val adapter = object : CurveView.Adapter() {
+        override fun getLevel(position: Int): Int = (yValues[position] * sumScale).toInt()
+
+        override fun getCount(): Int = yValues.size
+
+        override fun getXAxisText(i: Int): String = xValues[i]
+
+        override fun getMaxLevel(): Int {
+            if (yValues.max() == null) return 1
+            var max = (yValues.max()!! * sumScale).toInt()
+            if (yValues.min() == yValues.max()) {
+                max += 1
+            }
+            return max
+        }
+
+        override fun getMinLevel(): Int {
+            if (yValues.min() == null) return 0
+            return (yValues.min()!! * sumScale).toInt()
+        }
+
+        override fun onCreateMarks(position: Int): MutableSet<CurveView.Mark> {
+            val marks = HashSet<CurveView.Mark>()
+            val mark = CurveView.Mark("${yValues[position]}", CurveView.Gravity.START or CurveView.Gravity.CENTER_HORIZONTAL, 0, 0, 0, 8)
+            marks.add(mark)
+            return marks
         }
     }
 
