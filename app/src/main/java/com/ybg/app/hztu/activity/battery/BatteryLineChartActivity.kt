@@ -167,7 +167,6 @@ class BatteryLineChartActivity : AppCompatActivity() {
                 }
                 list.forEach {
                     chartItemList.add(LineChartItem(it.xValue, it.yValue))
-                    println("xValue=${it.xValue}, yValue=${it.yValue}")
                 }
 
                 lineChartView.data = chartItemList

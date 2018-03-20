@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.*
 import android.support.v4.util.Pair
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.VelocityTracker
@@ -163,7 +162,6 @@ class ScrollLineChartView @JvmOverloads constructor(context: Context, attrs: Att
 
         setMeasuredDimension(viewWidth, viewHeight)
         calculatePointGap()
-        Log.d("ccy", "viewHeight = $viewHeight;viewWidth = $viewWidth")
     }
 
     override fun onDraw(canvas: Canvas) {

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ybg.app.hztu">
+<manifest package="com.ybg.app.hztu"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
 
     <application
         android:name=".app.UserApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/hzt"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/hzt"
@@ -20,49 +21,55 @@
         android:theme="@style/AppTheme">
         <activity android:name=".WelcomeActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.user.LoginActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_login"/>
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.user.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.user.UpdateActivity"
             android:label="@string/title_activity_update"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.home.MainActivity"
             android:label="@string/title_activity_main"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.battery.SystemMainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.battery.SystemMainActivity"
             android:label="@string/title_activity_battery_main"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.battery.SystemDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.battery.SystemDetailActivity"
             android:label="@string/title_activity_battery_detail"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.battery.SystemHistoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.battery.SystemHistoryActivity"
             android:label="@string/title_activity_battery_history"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.battery.SystemLineChartActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.battery.SystemLineChartActivity"
             android:label="@string/title_activity_battery_line_chart"
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="false"/>
-        <activity android:name=".activity.battery.BatteryDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.battery.BatteryDetailActivity"
             android:label="@string/title_activity_battery_detail"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.battery.BatteryHistoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.battery.BatteryHistoryActivity"
             android:label="@string/title_activity_battery_history"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.battery.BatteryLineChartActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.battery.BatteryLineChartActivity"
             android:label="@string/title_activity_battery_line_chart"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
