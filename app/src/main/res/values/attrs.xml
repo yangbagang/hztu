@@ -19,4 +19,9 @@
         <attr name="indicator_dividerWidth" format="dimension|reference" />
         <attr name="indicator_dividerVerticalMargin" format="dimension|reference" />
     </declare-styleable>
+    <declare-styleable name="ScrollLineChartView">
+        <attr name="line_interval" format="dimension"/>
+        <attr name="min_point_height" format="dimension"/>
+        <attr name="background_color" format="color"/>
+    </declare-styleable>
 </resources>

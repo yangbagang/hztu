@@ -102,30 +102,16 @@
         </LinearLayout>
     </HorizontalScrollView>
     <!--统计图-->
-    <com.sctdroid.app.uikit.CurveView
-        android:id="@+id/lc_chart"
+    <com.ybg.app.hztu.view.chart.ScrollLineChartView
+        android:id="@+id/lineChartView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        app:layout_constraintTop_toBottomOf="@id/ll_sum_period"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_sum_period"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:backgroundColor="@android:color/transparent"
-        app:corner="10dp"
-        app:contentPaddingStart="40dp"
-        app:contentPaddingEnd="40dp"
-        app:contentPaddingBottom="20dp"
-        app:contentPaddingTop="20dp"
-        app:strokeWidth="1px"
-        app:showXLine="true"
-        app:showXText="true"
-        app:contentColor="@android:color/black"
-        app:dotTextColor="@color/colorPrimary"
-        app:dotTextSize="8sp"
-        app:axisTextSize="9sp"
-        app:axisTextColor="@android:color/black"
-        app:dotTextGravity="center_horizontal|bottom"
-        app:showAll="false"
-        app:unitWidth="100dp"/>
+        android:layout_margin="@dimen/activity_vertical_margin"
+        app:line_interval="60dp"
+        app:min_point_height="60dp"
+        app:background_color="#ffffff"/>
 </android.support.constraint.ConstraintLayout>

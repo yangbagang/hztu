@@ -45,5 +45,4 @@ dependencies {
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.getui:sdk:2.8.1.0'
     implementation 'com.getui:ext:2.0.3'
-    implementation 'com.github.auv1107:CurveView:a0e576c041'
 }

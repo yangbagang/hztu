@@ -52,7 +52,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.battery.SystemLineChartActivity"
             android:label="@string/title_activity_battery_line_chart"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="false"/>
         <activity android:name=".activity.battery.BatteryDetailActivity"
             android:label="@string/title_activity_battery_detail"
             android:screenOrientation="portrait" />

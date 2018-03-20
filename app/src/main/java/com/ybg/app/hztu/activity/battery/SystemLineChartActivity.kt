@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.TextView
 import com.google.gson.reflect.TypeToken
-import com.sctdroid.app.uikit.CurveView
 import com.ybg.app.base.bean.Battery
+import com.ybg.app.base.bean.LineChartItem
 import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
 import com.ybg.app.base.utils.GsonUtil
@@ -17,6 +17,7 @@ import com.ybg.app.base.utils.ToastUtil
 import com.ybg.app.hztu.R
 import com.ybg.app.hztu.app.UserApplication
 import kotlinx.android.synthetic.main.activity_system_line_chart.*
+import java.util.*
 
 class SystemLineChartActivity : AppCompatActivity() {
 
@@ -28,8 +29,7 @@ class SystemLineChartActivity : AppCompatActivity() {
     private var sumPeriod = 2
     private var sumScale = 10
 
-    private var xValues: MutableList<String> = ArrayList()
-    private var yValues: MutableList<Float> = ArrayList()
+    private var chartItemList: MutableList<LineChartItem> = ArrayList<LineChartItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +42,6 @@ class SystemLineChartActivity : AppCompatActivity() {
         }
 
         initEvent()
-
-        lc_chart.setAdapter(adapter)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -164,53 +162,20 @@ class SystemLineChartActivity : AppCompatActivity() {
     private val jsonCallback = object : JsonCallback() {
         override fun onJsonSuccess(data: String) {
             super.onJsonSuccess(data)
-            val list = GsonUtil.createGson().fromJson<List<ChartItem>>(data, object : TypeToken<List<ChartItem>>() {}.type)
-            xValues.clear()
-            yValues.clear()
+            val list = GsonUtil.createGson().fromJson<List<LineChartItem>>(data, object :
+                    TypeToken<List<LineChartItem>>() {}.type)
+            chartItemList.clear()
             if (list.isEmpty()) {
                 ToastUtil.show(userApplication, "没有相关数据")
             }
             list.forEach {
-                xValues.add(it.xValue)
-                yValues.add(it.yValue)
+                chartItemList.add(LineChartItem(it.xValue, it.yValue))
                 println("xValue=${it.xValue}, yValue=${it.yValue}")
             }
 
-            adapter.notifyDataSetChanged()
-            lc_chart.invalidate()
+            lineChartView.data = chartItemList
         }
     }
-
-    private val adapter = object : CurveView.Adapter() {
-        override fun getLevel(position: Int): Int = (yValues[position] * sumScale).toInt()
-
-        override fun getCount(): Int = yValues.size
-
-        override fun getXAxisText(i: Int): String = xValues[i]
-
-        override fun getMaxLevel(): Int {
-            if (yValues.max() == null) return 1
-            var max = (yValues.max()!! * sumScale).toInt()
-            if (yValues.min() == yValues.max()) {
-                max += 1
-            }
-            return max
-        }
-
-        override fun getMinLevel(): Int {
-            if (yValues.min() == null) return 0
-            return (yValues.min()!! * sumScale).toInt()
-        }
-
-        override fun onCreateMarks(position: Int): MutableSet<CurveView.Mark> {
-            val marks = HashSet<CurveView.Mark>()
-            val mark = CurveView.Mark("${yValues[position]}", CurveView.Gravity.START or CurveView.Gravity.CENTER_HORIZONTAL, 0, 0, 0, 8)
-            marks.add(mark)
-            return marks
-        }
-    }
-
-    internal data class ChartItem(var xValue: String, var yValue: Float)
 
     companion object {
         fun start(context: Context, battery: Battery) {
