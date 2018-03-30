@@ -23,26 +23,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="WLCB00000001"/>
-        <EditText
-            android:id="@+id/et_system_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="WLCB00000001"
-            android:hint="请输入自定义名称"
-            android:visibility="gone"/>
-        <Button
-            android:id="@+id/btn_update"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="更新"
-            android:visibility="gone"/>
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="取消"
-            android:visibility="gone"/>
     </LinearLayout>
 
     <TextView
