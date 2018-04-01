@@ -44,6 +44,8 @@ class SystemEditPopupWindow() : PopupWindow(), View.OnClickListener {
         editSystemName = contentView.findViewById(R.id.et_system_name)
 
         editSystemName?.setText(name)
+        btnCancel?.setOnClickListener(this)
+        btnUpdate?.setOnClickListener(this)
     }
 
     private fun updateSystemName(uid: String, name: String) {
@@ -61,10 +63,10 @@ class SystemEditPopupWindow() : PopupWindow(), View.OnClickListener {
         })
     }
 
-    fun showWindow(parent: View) {
+    fun showWindow(parent: View?) {
         try {
             if (!this.isShowing) {
-                this.showAtLocation(parent, android.view.Gravity.CENTER, 0, 0)
+                this.showAtLocation(parent, android.view.Gravity.CENTER, 0, -180)
             } else {
                 this.dismiss()
             }
@@ -77,6 +79,7 @@ class SystemEditPopupWindow() : PopupWindow(), View.OnClickListener {
         when(view.id) {
             R.id.btn_cancel -> {
                 dismiss()
+                mSystemEditListener?.cancelEdit()
             }
             R.id.btn_update -> {
                 val systemName = editSystemName?.text?.toString()
@@ -95,6 +98,7 @@ class SystemEditPopupWindow() : PopupWindow(), View.OnClickListener {
     }
 
     interface SystemEditListener {
+        fun cancelEdit()
         fun updateName(systemName: String)
     }
 }

@@ -9,7 +9,7 @@ object HttpUrl {
 
     //全局定义
     //开发服务器地址
-    private const val API_HOST_DEBUG = "http://192.168.12.99:8080/hztua"
+    private const val API_HOST_DEBUG = "http://192.168.1.3:8080/hztua"
     //生产服务器地址
     private const val API_HOST_PRODUCT = "http://47.100.22.227:8080/hztua"
     //上传

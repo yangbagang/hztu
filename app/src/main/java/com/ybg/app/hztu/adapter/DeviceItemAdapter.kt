@@ -25,7 +25,7 @@ class DeviceItemAdapter(private var context: Context) : RecyclerBaseAdapter<Batt
         btv = viewHolder.getView(R.id.tv_btv)
         time = viewHolder.getView(R.id.tv_time)
         if (num != null) {
-            num!!.text = "${position}"
+            num!!.text = "${position + 1}"
         }
         if (bi != null) {
             bi!!.text = "${item?.bi}"

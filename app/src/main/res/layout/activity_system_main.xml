@@ -95,7 +95,7 @@
         <LinearLayout
             android:id="@+id/ll_battery_title"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="40dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

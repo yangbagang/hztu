@@ -1,9 +1,13 @@
 package com.ybg.app.hztu.adapter
 
 import android.app.Activity
+import android.app.Service
+import android.inputmethodservice.InputMethodService
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
@@ -60,13 +64,30 @@ class SystemItemAdapter(private var mContext: Activity) : BaseAdapter() {
             viewHolder?.systemNameView?.text = name
         }
         viewHolder?.systemNameView?.setOnLongClickListener {
-            SystemEditPopupWindow(mContext, battery.uid, name, object : SystemEditPopupWindow
+            val popupWindow = SystemEditPopupWindow(mContext, battery.uid, name, object : SystemEditPopupWindow
             .SystemEditListener {
                 override fun updateName(systemName: String) {
                     viewHolder.systemNameView?.text = systemName
+                    battery.name = systemName
+                    val lp = mContext.window.attributes
+                    lp.alpha = 1f
+                    mContext.window.attributes = lp
                 }
 
+                override fun cancelEdit() {
+                    val lp = mContext.window.attributes
+                    lp.alpha = 1f
+                    mContext.window.attributes = lp
+                }
             })
+            val lp = mContext.window.attributes
+            lp.alpha = 0.4f
+            mContext.window.attributes = lp
+            popupWindow.isOutsideTouchable = true
+            popupWindow.isFocusable = true
+            popupWindow.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+            popupWindow.showWindow(parent)
+            (mContext.getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
             true
         }
         viewHolder?.systemUpdateTimeView?.text = DateUtil.getTimeInterval(battery.createTime)
@@ -83,7 +104,7 @@ class SystemItemAdapter(private var mContext: Activity) : BaseAdapter() {
     override fun getCount(): Int = mList!!.size
 
     private fun initViewHolder(viewHolder: ViewHolder, convertView: View?) {
-        viewHolder.systemImageView = convertView?.findViewById<ImageView>(R.id.iv_system)
+        viewHolder.systemImageView = convertView?.findViewById(R.id.iv_system)
         viewHolder.systemNameView = convertView?.findViewById(R.id.tv_system_name)
         viewHolder.systemUpdateTimeView = convertView?.findViewById(R.id.tv_update_time)
         viewHolder.systemValueView = convertView?.findViewById(R.id.tv_system_value)
