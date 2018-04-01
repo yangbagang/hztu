@@ -41,7 +41,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile project(path: ':base')
+    implementation project(path: ':base')
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.getui:sdk:2.8.1.0'
     implementation 'com.getui:ext:2.0.3'
