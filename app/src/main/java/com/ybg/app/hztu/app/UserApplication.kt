@@ -1,7 +1,6 @@
 package com.ybg.app.hztu.app
 
 import android.content.Context
-import com.igexin.sdk.PushManager
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
@@ -13,15 +12,11 @@ import com.ybg.app.base.app.YbgAPP
  */
 class UserApplication : YbgAPP() {
 
-    val TAG = "UserApplication"
-
     override fun onCreate() {
         super.onCreate()
         instance = this
 
         initImageLoader(applicationContext)
-
-        PushManager.getInstance().initialize(applicationContext)
     }
 
     override fun onTerminate() {
