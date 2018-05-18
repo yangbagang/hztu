@@ -6,6 +6,26 @@
     android:layout_height="match_parent"
     tools:context="com.ybg.app.hztu.activity.home.MainActivity"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical">
+        <EditText
+            android:id="@+id/et_search_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:text="检索设备"
+            android:textColor="@android:color/white"
+            android:padding="5dp"
+            android:background="@drawable/square_selected_bg"/>
+    </LinearLayout>
     <ListView
         android:id="@+id/lv_battery_list"
         android:layout_width="match_parent"

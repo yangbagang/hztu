@@ -96,24 +96,24 @@ object SendRequest {
     /**
      * 获取电池系统列表
      */
-    fun getBatteryBSList(tag: Context, token: String, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token)
+    fun getBatteryBSList(tag: Context, token: String, name: String, callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "name" to name)
         OkHttpProxy.post(HttpUrl.batteryBSListUrl, tag, params, callback)
     }
 
     /**
      * 获取UPS系统列表
      */
-    fun getBatteryUPSList(tag: Context, token: String, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token)
+    fun getBatteryUPSList(tag: Context, token: String, name: String, callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "name" to name)
         OkHttpProxy.post(HttpUrl.batteryUPSListUrl, tag, params, callback)
     }
 
     /**
      * 获取直流系统列表
      */
-    fun getBatteryDCList(tag: Context, token: String, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token)
+    fun getBatteryDCList(tag: Context, token: String, name: String, callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "name" to name)
         OkHttpProxy.post(HttpUrl.batteryDCListUrl, tag, params, callback)
     }
 

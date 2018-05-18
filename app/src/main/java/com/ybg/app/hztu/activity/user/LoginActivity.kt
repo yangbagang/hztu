@@ -41,12 +41,10 @@ class LoginActivity : AppCompatActivity() {
             }
             false
         })
+        //加载上次记住的密码
+        password.setText(userApplication.pwd)
 
         mobile_sign_in_button.setOnClickListener { attemptLogin() }
-        tv_action_register.setOnClickListener {
-            RegisterActivity.start(this@LoginActivity)
-            finish()
-        }
     }
 
     /**
@@ -150,6 +148,12 @@ class LoginActivity : AppCompatActivity() {
                 userApplication.token = userInfo.token
                 userApplication.userInfo = userInfo
                 showProgress(false)
+                //处理记录密码功能
+                if (cb_remember_pwd.isChecked) {
+                    userApplication.pwd = password
+                } else {
+                    userApplication.pwd = ""
+                }
                 MainActivity.start(this@LoginActivity)
                 finish()
             }

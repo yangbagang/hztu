@@ -12,6 +12,7 @@ import com.ybg.app.base.bean.Battery
 import com.ybg.app.base.bean.JSonResultBean
 import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
+import com.ybg.app.base.utils.ToastUtil
 import com.ybg.app.hztu.R
 import com.ybg.app.hztu.activity.battery.SystemMainActivity
 import com.ybg.app.hztu.activity.user.LoginActivity
@@ -27,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var systemItemAdapter: SystemItemAdapter
     private var batteryList = ArrayList<Battery>()
 
+    private var name = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -41,6 +44,15 @@ class MainActivity : AppCompatActivity() {
 
         if (userApplication.hasLogin()) {
             getBatteryList()
+        }
+
+        tv_search.setOnClickListener {
+            name = et_search_name.text.toString()
+            if (name == "") {
+                ToastUtil.show(userApplication, "请输入编号进行检索")
+            } else {
+                getBatteryList()
+            }
         }
     }
 
@@ -74,9 +86,9 @@ class MainActivity : AppCompatActivity() {
     private fun getBatteryList() {
         if (!userApplication.hasLogin()) return
         batteryList.clear()
-        SendRequest.getBatteryBSList(this@MainActivity, userApplication.token, jsonCallback)
-        SendRequest.getBatteryDCList(this@MainActivity, userApplication.token, jsonCallback)
-        SendRequest.getBatteryUPSList(this@MainActivity, userApplication.token, jsonCallback)
+        SendRequest.getBatteryBSList(this@MainActivity, userApplication.token, name, jsonCallback)
+        SendRequest.getBatteryDCList(this@MainActivity, userApplication.token, name, jsonCallback)
+        SendRequest.getBatteryUPSList(this@MainActivity, userApplication.token, name, jsonCallback)
     }
 
     private val jsonCallback = object : JsonCallback() {

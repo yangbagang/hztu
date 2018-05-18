@@ -63,6 +63,13 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <CheckBox
+                android:id="@+id/cb_remember_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="记住密码"/>
+
             <Button
                 android:id="@+id/mobile_sign_in_button"
                 style="?android:textAppearanceSmall"
@@ -71,12 +78,6 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
-            <TextView
-                android:id="@+id/tv_action_register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="还没有账号？点此注册。"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
