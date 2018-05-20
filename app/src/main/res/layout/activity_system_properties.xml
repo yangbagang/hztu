@@ -147,40 +147,26 @@
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_device"
+    <com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout
+        android:id="@+id/rl_fresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="120dp">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </android.support.v4.view.ViewPager>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_battery_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <LinearLayout
+    </com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/detailButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:layout_gravity="center_horizontal|bottom">
-        <View
-            android:id="@+id/v_item_1"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@drawable/ic_item_selected" />
-        <View
-            android:id="@+id/v_item_2"
-            android:layout_width="24dp"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_height="24dp"
-            android:background="@drawable/ic_item_normal" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_system_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:text="UPS三进三出"
-        android:background="@drawable/square_black_bg"
-        android:layout_gravity="center_horizontal|bottom"/>
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:src="@drawable/ic_more"
+        app:layout_anchor="@id/appBarLayout"
+        app:layout_anchorGravity="end|bottom"/>
 
 </android.support.design.widget.CoordinatorLayout>

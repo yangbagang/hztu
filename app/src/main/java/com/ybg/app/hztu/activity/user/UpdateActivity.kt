@@ -19,9 +19,6 @@ import com.ybg.app.hztu.R
 import com.ybg.app.hztu.app.UserApplication
 import kotlinx.android.synthetic.main.activity_update.*
 
-/**
- * A register screen that offers register via mobile/password/name/company/email.
- */
 class UpdateActivity : AppCompatActivity() {
 
     private val userApplication = UserApplication.instance!!
@@ -38,9 +35,12 @@ class UpdateActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (userApplication.hasLogin()) {
-            user_name.setText(userApplication.userInfo?.name)
-            company.setText(userApplication.userInfo?.company)
-            email.setText(userApplication.userInfo?.email)
+            tv_user_code.text = "客户编号：${userApplication.userInfo?.code}"
+            tv_user_company.text = "公司名称：${userApplication.userInfo?.company}"
+            tv_user_email.text = "公司邮箱：${userApplication.userInfo?.email}"
+            tv_user_mobile.text = "手机号码：${userApplication.userInfo?.mobile}"
+            tv_user_num.text = "站点数量：${userApplication.userInfo?.sideNum}"
+            tv_user_capacity.text = "装机容量：${userApplication.userInfo?.installedCapacity}kWh"
         }
     }
 
@@ -61,40 +61,26 @@ class UpdateActivity : AppCompatActivity() {
      */
     private fun attemptLogin() {
         // Reset errors.
-        user_name.error = null
-        company.error = null
-        email.error = null
+        et_old_pwd.error = null
+        et_new_pwd.error = null
 
         // Store values at the time of the login attempt.
-        val userNameStr = user_name.text.toString()
-        val companyStr = company.text.toString()
-        val emailStr = email.text.toString()
+        val oldPwdStr = et_old_pwd.text.toString()
+        val newPwdStr = et_new_pwd.text.toString()
 
         var cancel = false
         var focusView: View? = null
 
         // Check for a valid name.
-        if (TextUtils.isEmpty(userNameStr)) {
-            user_name.error = getString(R.string.error_field_required)
-            focusView = user_name
+        if (TextUtils.isEmpty(oldPwdStr)) {
+            et_old_pwd.error = getString(R.string.error_field_required)
+            focusView = et_old_pwd
             cancel = true
         }
 
-        // Check for a valid company.
-        if (TextUtils.isEmpty(companyStr)) {
-            company.error = getString(R.string.error_field_required)
-            focusView = company
-            cancel = true
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(emailStr)) {
-            email.error = getString(R.string.error_field_required)
-            focusView = email
-            cancel = true
-        } else if (!isEmailValid(emailStr)) {
-            email.error = getString(R.string.error_invalid_email)
-            focusView = email
+        if (TextUtils.isEmpty(newPwdStr)) {
+            et_new_pwd.error = getString(R.string.error_field_required)
+            focusView = et_new_pwd
             cancel = true
         }
 
@@ -106,7 +92,7 @@ class UpdateActivity : AppCompatActivity() {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true)
-            update(userNameStr, companyStr, emailStr)
+            update(oldPwdStr, newPwdStr)
         }
     }
 
@@ -152,23 +138,19 @@ class UpdateActivity : AppCompatActivity() {
         }
     }
 
-    private fun update(name: String, company: String, email: String) {
-        SendRequest.updateUserInfo(this, userApplication.token, name, company, email, object : JsonCallback() {
+    private fun update(oldPwd: String, newPwd: String) {
+        SendRequest.updateUserPassword(this, userApplication.token, oldPwd, newPwd, object : JsonCallback() {
             override fun onJsonSuccess(data: String) {
                 super.onJsonSuccess(data)
-                //val userInfo = GsonUtil.createGson().fromJson<UserInfo>(data, UserInfo::class.java)
-                userApplication.userInfo!!.name = name
-                userApplication.userInfo!!.company = company
-                userApplication.userInfo!!.email = email
                 showProgress(false)
-                ToastUtil.show(userApplication, "更新完成")
+                ToastUtil.show(userApplication, "操作完成")
                 finish()
             }
 
             override fun onJsonFail(jsonBean: JSonResultBean) {
                 super.onJsonFail(jsonBean)
                 println("errorMsg: ${jsonBean.message}")
-                ToastUtil.show(userApplication, "更新失败")
+                ToastUtil.show(userApplication, "操作失败")
                 showProgress(false)
             }
         })

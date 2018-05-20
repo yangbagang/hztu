@@ -19,6 +19,53 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/tv_user_code"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="客户编号："/>
+
+    <TextView
+        android:id="@+id/tv_user_company"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="公司名称："/>
+
+    <TextView
+        android:id="@+id/tv_user_email"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="公司邮箱："/>
+
+    <TextView
+        android:id="@+id/tv_user_mobile"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="手机号码："/>
+
+    <TextView
+        android:id="@+id/tv_user_num"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="站点数量："/>
+
+    <TextView
+        android:id="@+id/tv_user_capacity"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="装机容量："/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#999999" />
+
     <ScrollView
         android:id="@+id/updte_form"
         android:layout_width="match_parent"
@@ -30,15 +77,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="修改密码"/>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/user_name"
+                    android:id="@+id/et_old_pwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_name"
+                    android:hint="@string/prompt_password1"
+                    android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true" />
 
@@ -49,25 +104,11 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/company"
+                    android:id="@+id/et_new_pwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_company"
-                    android:maxLines="3"
-                    android:singleLine="false" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
+                    android:hint="@string/prompt_password2"
+                    android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true" />
 

@@ -15,7 +15,7 @@ class UserInfo : Serializable {
     var token = ""//token
     var appToken = ""//appToken
     var code = ""//用户编号
-    var sideName = 0//站点数量
+    var sideNum = 0//站点数量
     var installedCapacity = 0//装机容量
 
     companion object {

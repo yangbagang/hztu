@@ -4,14 +4,11 @@
     <!-- Strings related to login -->
     <string name="prompt_mobile">手机号</string>
     <string name="prompt_password">密码</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_name">名称</string>
-    <string name="prompt_company">公司</string>
+    <string name="prompt_password1">旧密码</string>
+    <string name="prompt_password2">新密码</string>
+    <string name="action_update">更新密码</string>
     <string name="action_sign_in">登录</string>
     <string name="action_sign_in_short">登录</string>
-    <string name="action_register_in">注册</string>
-    <string name="action_register_short">注册</string>
-    <string name="action_update">更新</string>
     <string name="error_invalid_mobile">手机号格式不正确</string>
     <string name="error_invalid_email">Email格式不正确</string>
     <string name="error_invalid_password">密码长度不能小于6位</string>
@@ -24,7 +21,7 @@
     <string name="title_activity_main">设备列表</string>
     <string name="title_activity_login">用户登录</string>
     <string name="title_activity_register">用户注册</string>
-    <string name="title_activity_update">资料编辑</string>
+    <string name="title_activity_update">用户资料</string>
     <string name="title_activity_battery_main">设备数据</string>
     <string name="title_activity_battery_detail">详细数据</string>
     <string name="title_activity_battery_history">历史数据</string>

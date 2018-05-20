@@ -10,76 +10,38 @@ object SendRequest {
 
 
     //第一部分，用户操作
-    /**
-     * 1.1获取验证码
-     *
-     * @param mobile 手机号
-     */
-    fun getCaptcha(tag: Context, mobile: String, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("mobile" to mobile)
-        OkHttpProxy.post(HttpUrl.getCaptchaUrl, tag, params, callback)
-    }
 
     /**
-     * 1.2验证码校验
-     *
-     * @param mobile 手机号
-     * @param captcha  验证码的值
-     */
-    fun checkCaptcha(tag: Context, mobile: String, captcha: String, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("mobile" to mobile, "captcha" to captcha)
-        OkHttpProxy.post(HttpUrl.checkCaptchaUrl, tag, params, callback)
-    }
-
-    /**
-     * 1.3用户注册接口
-     *
-     * @param mobile 手机号
-     * @param password  密码
-     * @param name
-     * @param company
-     * @param email
-     */
-    fun userRegister(tag: Context, mobile: String, password: String, name: String, company: String,
-                     email: String, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("mobile" to mobile, "password" to password, "name" to name,
-                "company" to company, "email" to email)
-        OkHttpProxy.post(HttpUrl.userRegisterUrl, tag, params, callback)
-    }
-
-    /**
-     * 1.4 用户登录接口
+     * 1.1 用户登录接口
      *
      * @param mobile 手机号
      * @param password 密码
      */
     fun userLogin(tag: Context, mobile: String, password: String, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("mobile" to mobile, "password" to password)
+        val params = mapOf("mobile" to mobile, "password" to password)
         OkHttpProxy.post(HttpUrl.userLoginUrl, tag, params, callback)
     }
 
     /**
-     * 1.5 用户登出接口
+     * 1.2 用户登出接口
      *
-     * @param mobile 手机号
-     * @param password 密码
+     * @param token 用户token
      */
     fun userLogout(tag: Context, token: String, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token)
+        val params = mapOf("token" to token)
         OkHttpProxy.post(HttpUrl.userLogoutUrl, tag, params, callback)
     }
 
     /**
-     * 1.6 更新用户信息接口
+     * 1.3 修改密码接口
      *
-     * @param mobile 手机号
-     * @param name
-     * @param company
-     * @param email
+     * @param token
+     * @param oldPwd
+     * @param newPwd
      */
-    fun updateUserInfo(tag: Context, token: String, name: String, company: String, email: String, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token, "name" to name, "company" to company, "email" to email)
-        OkHttpProxy.post(HttpUrl.updateUserInfoUrl, tag, params, callback)
+    fun updateUserPassword(tag: Context, token: String, oldPwd: String, newPwd: String, callback: OkCallback<*>) {
+        val params = mapOf("token" to token, "oldPwd" to oldPwd, "newPwd" to newPwd)
+        OkHttpProxy.post(HttpUrl.updateUserPasswordUrl, tag, params, callback)
     }
 
     fun updateAppToken(tag: Context, userToken: String, appToken: String, callback: OkCallback<*>) {
@@ -188,34 +150,6 @@ object SendRequest {
                     callback: OkCallback<*>) {
         val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "key" to key, "period" to "$period")
         OkHttpProxy.post(HttpUrl.upsChartUrl, tag, params, callback)
-    }
-
-    /**
-     * 上传图片文件
-     */
-    fun uploadPicFile(tag: Context, folder: String, file: File, uploadListener: UploadListener) {
-        try {
-            val uploadBuilder = OkHttpProxy.upload().url(HttpUrl.FILE_SERVER_PIC_UPLOAD).tag(tag)
-            uploadBuilder.addParams("folder", folder)
-                    .file(Pair("pic", file))
-                    .start(uploadListener)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    /**
-     * 上传视频文件
-     */
-    fun uploadVideoFile(tag: Context, folder: String, file: File, uploadListener: UploadListener) {
-        try {
-            val uploadBuilder = OkHttpProxy.upload().url(HttpUrl.FILE_SERVER_VIDEO_UPLOAD).tag(tag)
-            uploadBuilder.addParams("folder", folder)
-                    .file(Pair("video", file))
-                    .start(uploadListener)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 
 }
