@@ -28,33 +28,21 @@ object HttpUrl {
         get() = "$ROOT_URL/userInfo/updateAppToken"
 
     //第二部分，电池操作
-    val batteryBSListUrl: String
-        get() = "$ROOT_URL/battery/listBS"
-    val batteryUPSListUrl: String
-        get() = "$ROOT_URL/battery/listUPS"
-    val batteryDCListUrl: String
-        get() = "$ROOT_URL/battery/listDC"
+    val deviceInfoListUrl: String
+        get() = "$ROOT_URL/deviceInfo/list"
     val getLocationUrl: String
-        get() = "$ROOT_URL/battery/getLocation"
+        get() = "$ROOT_URL/batteryLocation/getLocation"
     val updateNameUrl: String
-        get() = "$ROOT_URL/battery/updateName"
+        get() = "$ROOT_URL/deviceInfo/updateName"
     val getBatteryListUrl: String
-        get() = "$ROOT_URL/battery/listDataByUid"
+        get() = "$ROOT_URL/battery/listByUid"
     val batteryDataUrl: String
         get() = "$ROOT_URL/batteryHistory/list"
     val batteryChartUrl: String
         get() = "$ROOT_URL/batteryHistory/calculate"
-    val bsDataUrl: String
-        get() = "$ROOT_URL/batteryHistory/listBS"
-    val bsChartUrl: String
-        get() = "$ROOT_URL/batteryHistory/calculateBS"
-    val dcDataUrl: String
-        get() = "$ROOT_URL/batteryHistory/listDC"
-    val dcChartUrl: String
-        get() = "$ROOT_URL/batteryHistory/calculateDC"
-    val upsDataUrl: String
-        get() = "$ROOT_URL/batteryHistory/listUPS"
-    val upsChartUrl: String
-        get() = "$ROOT_URL/batteryHistory/calculateUPS"
+    val deviceDataUrl: String
+        get() = "$ROOT_URL/deviceValueHistory/list"
+    val deviceChartUrl: String
+        get() = "$ROOT_URL/deviceValueHistory/calculate"
 
 }

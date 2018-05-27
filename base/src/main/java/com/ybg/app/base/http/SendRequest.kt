@@ -44,11 +44,17 @@ object SendRequest {
         OkHttpProxy.post(HttpUrl.updateUserPasswordUrl, tag, params, callback)
     }
 
+    /**
+     * 1.4
+     */
     fun updateAppToken(tag: Context, userToken: String, appToken: String, callback: OkCallback<*>) {
         val params = mapOf<String, String>("userToken" to userToken, "appToken" to appToken)
         OkHttpProxy.post(HttpUrl.updateClientIdUrl, tag, params, callback)
     }
 
+    /**
+     * 1.5
+     */
     fun getUserInfo(tag: Context, token: String, callback: OkCallback<*>) {
         val params = mapOf<String, String>("token" to token)
         OkHttpProxy.post(HttpUrl.getUserInfoUrl, tag, params, callback)
@@ -56,30 +62,16 @@ object SendRequest {
 
     //第二部分，电池操作
     /**
-     * 获取电池系统列表
+     * 2.1
+     * 获取设备列表
      */
-    fun getBatteryBSList(tag: Context, token: String, name: String, callback: OkCallback<*>) {
+    fun getDeviceInfoList(tag: Context, token: String, name: String, callback: OkCallback<*>) {
         val params = mapOf<String, String>("token" to token, "name" to name)
-        OkHttpProxy.post(HttpUrl.batteryBSListUrl, tag, params, callback)
+        OkHttpProxy.post(HttpUrl.deviceInfoListUrl, tag, params, callback)
     }
 
     /**
-     * 获取UPS系统列表
-     */
-    fun getBatteryUPSList(tag: Context, token: String, name: String, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token, "name" to name)
-        OkHttpProxy.post(HttpUrl.batteryUPSListUrl, tag, params, callback)
-    }
-
-    /**
-     * 获取直流系统列表
-     */
-    fun getBatteryDCList(tag: Context, token: String, name: String, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token, "name" to name)
-        OkHttpProxy.post(HttpUrl.batteryDCListUrl, tag, params, callback)
-    }
-
-    /**
+     * 2.2
      * 获取位置描述。type=0移动。1联通。
      */
     fun getLocation(tag: Context, token: String, lac: Int, cid: Int, type: Int, callback: OkCallback<*>) {
@@ -88,6 +80,7 @@ object SendRequest {
     }
 
     /**
+     * 2.3
      * 自定义设备名称
      */
     fun updateName(tag: Context, token: String, uid: String, name: String, callback: OkCallback<*>) {
@@ -96,6 +89,7 @@ object SendRequest {
     }
 
     /**
+     * 2.4
      * 获取某设备下的所有电池
      */
     fun getBatteryDataByUid(tag: Context, token: String, uid: String, pageSize: Int, pageNum: Int, callback: OkCallback<*>) {
@@ -104,6 +98,7 @@ object SendRequest {
     }
 
     /**
+     * 2.5
      * 获得历史数据
      */
     fun getBatteryDataList(tag: Context, token: String, batteryId: Long, pageSize: Int, pageNum: Int, callback: OkCallback<*>) {
@@ -111,45 +106,30 @@ object SendRequest {
         OkHttpProxy.post(HttpUrl.batteryDataUrl, tag, params, callback)
     }
 
+    /**
+     * 2.6
+     */
     fun getBatterySumList(tag: Context, token: String, batteryId: Long, key: String, period: Int, callback: OkCallback<*>) {
         val params = mapOf<String, String>("token" to token, "batteryId" to "$batteryId", "key" to key, "period" to "$period")
         OkHttpProxy.post(HttpUrl.batteryChartUrl, tag, params, callback)
     }
 
-    fun getBSDataList(tag: Context, token: String, deviceId: Long, pageSize: Int, pageNum: Int,
+    /**
+     * 2.7
+     */
+    fun getDeviceDataList(tag: Context, token: String, uid: String, pageSize: Int, pageNum: Int,
                       callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "pageSize" to "$pageSize", "pageNum" to "$pageNum")
-        OkHttpProxy.post(HttpUrl.bsDataUrl, tag, params, callback)
+        val params = mapOf<String, String>("token" to token, "uid" to uid, "pageSize" to "$pageSize", "pageNum" to "$pageNum")
+        OkHttpProxy.post(HttpUrl.deviceDataUrl, tag, params, callback)
     }
 
-    fun getBSSumList(tag: Context, token: String, deviceId: Long, key: String, period: Int,
+    /**
+     * 2.8
+     */
+    fun getDeviceSumList(tag: Context, token: String, uid: String, key: String, period: Int,
                      callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "key" to key, "period" to "$period")
-        OkHttpProxy.post(HttpUrl.bsChartUrl, tag, params, callback)
-    }
-
-    fun getDCDataList(tag: Context, token: String, deviceId: Long, pageSize: Int, pageNum: Int,
-                     callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "pageSize" to "$pageSize", "pageNum" to "$pageNum")
-        OkHttpProxy.post(HttpUrl.dcDataUrl, tag, params, callback)
-    }
-
-    fun getDCSumList(tag: Context, token: String, deviceId: Long, key: String, period: Int,
-                    callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "key" to key, "period" to "$period")
-        OkHttpProxy.post(HttpUrl.dcChartUrl, tag, params, callback)
-    }
-
-    fun getUPSDataList(tag: Context, token: String, deviceId: Long, pageSize: Int, pageNum: Int,
-                     callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "pageSize" to "$pageSize", "pageNum" to "$pageNum")
-        OkHttpProxy.post(HttpUrl.upsDataUrl, tag, params, callback)
-    }
-
-    fun getUPSSumList(tag: Context, token: String, deviceId: Long, key: String, period: Int,
-                    callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token, "deviceId" to "$deviceId", "key" to key, "period" to "$period")
-        OkHttpProxy.post(HttpUrl.upsChartUrl, tag, params, callback)
+        val params = mapOf<String, String>("token" to token, "uid" to uid, "key" to key, "period" to "$period")
+        OkHttpProxy.post(HttpUrl.deviceChartUrl, tag, params, callback)
     }
 
 }

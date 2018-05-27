@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         tv_search.setOnClickListener {
             name = et_search_name.text.toString()
             if (name == "") {
-                ToastUtil.show(userApplication, "请输入编号进行检索")
+                ToastUtil.show(userApplication, "请输入名称进行检索")
             } else {
                 getBatteryList()
             }
@@ -86,9 +86,7 @@ class MainActivity : AppCompatActivity() {
     private fun getBatteryList() {
         if (!userApplication.hasLogin()) return
         batteryList.clear()
-        SendRequest.getBatteryBSList(this@MainActivity, userApplication.token, name, jsonCallback)
-        SendRequest.getBatteryDCList(this@MainActivity, userApplication.token, name, jsonCallback)
-        SendRequest.getBatteryUPSList(this@MainActivity, userApplication.token, name, jsonCallback)
+        SendRequest.getDeviceInfoList(this@MainActivity, userApplication.token, name, jsonCallback)
     }
 
     private val jsonCallback = object : JsonCallback() {

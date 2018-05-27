@@ -21,6 +21,9 @@ class SystemMainActivity : AppCompatActivity() {
     private val userApplication = UserApplication.instance!!
     private var battery: Battery? = null
 
+    private var detailFragment: SystemDetailFragment? = null
+    private var listFragment: BatteryListFragment? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_system_main)
@@ -55,12 +58,20 @@ class SystemMainActivity : AppCompatActivity() {
 
                 getSystemAddress(battery!!.lac, battery!!.cid, 0)
                 tv_system_time.text = DateUtil.getTimeInterval(battery!!.createTime)
+
+                detailFragment = SystemDetailFragment(battery!!)
+                listFragment = BatteryListFragment(battery!!.uid)
             }
         }
 
         val list = ArrayList<Fragment>()
-        //list.add(new Fragment())
-        //list.add()
+        if (detailFragment != null) {
+            list.add(detailFragment!!)
+        }
+        if (listFragment != null) {
+            list.add(listFragment!!)
+        }
+
         val adapter = TabFragmentPagerAdapter(supportFragmentManager, list)
         vp_device.adapter = adapter
         vp_device.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
