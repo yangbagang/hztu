@@ -65,8 +65,8 @@ class SystemValueActivity : AppCompatActivity() {
                 getSystemAddress(battery!!.lac, battery!!.cid, 0)
                 tv_system_time.text = DateUtil.getTimeInterval(battery!!.createTime)
 
-                historyFragment = SystemDetailFragment(key)
-                chartFragment = BatteryListFragment(key)
+                historyFragment = SystemHistoryFragment(battery!!.uid, key)
+                chartFragment = SystemChartFragment(battery!!.uid, key)
             }
         }
 
@@ -94,18 +94,15 @@ class SystemValueActivity : AppCompatActivity() {
                     v_item_1.setBackgroundResource(R.drawable.ic_item_selected)
                     v_item_2.setBackgroundResource(R.drawable.ic_item_normal)
                     tv_system_type.text = "历史数据"
-                    supportActionBar?.title = title
+                    supportActionBar?.title = "${label}历史数据"
                 } else {
                     v_item_2.setBackgroundResource(R.drawable.ic_item_selected)
                     v_item_1.setBackgroundResource(R.drawable.ic_item_normal)
                     tv_system_type.text = "折线图"
+                    supportActionBar?.title = "${label}折线图"
                 }
             }
         })
-    }
-
-    private fun setTitle(title: String) {
-        supportActionBar?.title = title
     }
 
     override fun onDestroy() {

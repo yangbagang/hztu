@@ -57,16 +57,6 @@ class BatteryDetailActivity : AppCompatActivity() {
                 finish()
                 return true
             }
-            R.id.action_detail -> {
-                if (battery != null) {
-                    BatteryHistoryActivity.start(this@BatteryDetailActivity, battery!!)
-                }
-            }
-            R.id.action_chart -> {
-                if (battery != null) {
-                    BatteryLineChartActivity.start(this@BatteryDetailActivity, battery!!)
-                }
-            }
         }
         return super.onOptionsItemSelected(item)
     }

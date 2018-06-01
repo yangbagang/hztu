@@ -43,32 +43,21 @@
             android:label="@string/title_activity_battery_main"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.battery.SystemDetailActivity"
-            android:label="@string/title_activity_battery_detail"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.battery.SystemHistoryActivity"
-            android:label="@string/title_activity_battery_history"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.battery.SystemLineChartActivity"
-            android:label="@string/title_activity_battery_line_chart"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".activity.battery.BatteryDetailActivity"
             android:label="@string/title_activity_battery_detail"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.battery.BatteryHistoryActivity"
-            android:label="@string/title_activity_battery_history"
+            android:name=".activity.battery.BatteryMainActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.battery.BatteryLineChartActivity"
-            android:label="@string/title_activity_battery_line_chart"
+            android:name=".activity.battery.SystemValueActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activity.battery.BatteryMainActivity"/>
-        <activity android:name=".activity.battery.SystemValueActivity"/>
-        <activity android:name=".activity.battery.WarningMainActivity"/>
+        <activity
+            android:name=".activity.battery.WarningMainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.battery.BatteryValueActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -63,7 +63,7 @@ class SystemMainActivity : AppCompatActivity() {
                 tv_system_type.text = battery?.catalogName
 
                 detailFragment = SystemDetailFragment(battery!!)
-                listFragment = BatteryListFragment(battery!!.uid)
+                listFragment = BatteryListFragment(battery!!)
             }
         }
 

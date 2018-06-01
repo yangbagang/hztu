@@ -28,7 +28,7 @@ import com.ybg.app.hztu.view.bgarefresh.BGANormalRefreshViewHolder
 import com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout
 
 @SuppressLint("ValidFragment")
-class BatteryListFragment(var uid: String) : Fragment(), ScrollableView {
+class BatteryListFragment(var device: Battery) : Fragment(), ScrollableView {
 
     private val userApplication = UserApplication.instance!!
     private var hasMore = true
@@ -82,7 +82,7 @@ class BatteryListFragment(var uid: String) : Fragment(), ScrollableView {
 
     private fun getBatteryList() {
         if (!userApplication.hasLogin()) return
-        SendRequest.getBatteryDataByUid(activity!!, userApplication.token, uid,
+        SendRequest.getBatteryDataByUid(activity!!, userApplication.token, device.uid,
                 pageSize, pageNum, object : JsonCallback() {
             override fun onSuccess(code: Int, response: String) {
                 if (pageNum == 1) {
@@ -161,7 +161,7 @@ class BatteryListFragment(var uid: String) : Fragment(), ScrollableView {
         override fun onItemClick(position: Int) {
             val battery = batteryList[position]
             activity?.let {
-                BatteryMainActivity.start(activity!!, battery)
+                BatteryMainActivity.start(activity!!, device, battery.id)
             }
         }
     }

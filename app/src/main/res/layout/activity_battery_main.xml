@@ -51,21 +51,11 @@
                         android:textSize="14sp"
                         android:textColor="@android:color/white"/>
                     <TextView
-                    android:id="@+id/tv_system_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/iv_system"
-                    android:layout_below="@id/tv_system_name"
-                    android:layout_marginStart="5dp"
-                    android:text="xx"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/white"/>
-                    <TextView
                         android:id="@+id/tv_system_address1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/iv_system"
-                        android:layout_below="@id/tv_system_value"
+                        android:layout_below="@id/tv_system_name"
                         android:layout_marginStart="5dp"
                         android:text="正在获取地址"
                         android:textSize="12sp"
@@ -79,6 +69,16 @@
                         android:layout_marginStart="5dp"
                         android:text="正在获取地址"
                         android:textSize="12sp"
+                        android:textColor="@android:color/white"/>
+                    <TextView
+                        android:id="@+id/tv_system_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/iv_system"
+                        android:layout_below="@id/tv_system_address2"
+                        android:layout_marginStart="5dp"
+                        android:text="xx"
+                        android:textSize="14sp"
                         android:textColor="@android:color/white"/>
                     <TextView
                         android:id="@+id/tv_system_time"
@@ -103,7 +103,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.7"
                 android:gravity="center"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:text="序号"
@@ -112,10 +112,19 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:gravity="center"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:text="电压"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:text="内阻"
                 android:textColor="@android:color/white"/>
 
             <TextView
@@ -133,40 +142,45 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textAppearance="?attr/textAppearanceListItem"
-                android:text="内阻"
-                android:textColor="@android:color/white"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textAppearance="?attr/textAppearanceListItem"
                 android:text="最后更新"
                 android:textColor="@android:color/white"/>
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout
-        android:id="@+id/rl_fresh_layout"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_device"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_marginBottom="120dp">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_battery_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    </android.support.v4.view.ViewPager>
 
-    </com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/detailButton"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:src="@drawable/ic_more"
-        app:layout_anchor="@id/appBarLayout"
-        app:layout_anchorGravity="end|bottom"/>
+        android:layout_marginBottom="80dp"
+        android:layout_gravity="center_horizontal|bottom">
+        <View
+            android:id="@+id/v_item_1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_item_selected" />
+        <View
+            android:id="@+id/v_item_2"
+            android:layout_width="24dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_item_normal" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_system_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:text="UPS三进三出"
+        android:background="@drawable/square_black_bg"
+        android:layout_gravity="center_horizontal|bottom"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,14 +1,16 @@
 package com.ybg.app.hztu.activity.battery
 
-import android.content.Context
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.view.MenuItem
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.ybg.app.base.bean.Battery
@@ -16,23 +18,29 @@ import com.ybg.app.base.bean.JSonResultBean
 import com.ybg.app.base.decoration.SpaceItemDecoration
 import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
+import com.ybg.app.base.scroll.ScrollableView
 import com.ybg.app.base.utils.ToastUtil
 import com.ybg.app.hztu.R
 import com.ybg.app.hztu.adapter.BatteryItemAdapter
 import com.ybg.app.hztu.app.UserApplication
 import com.ybg.app.hztu.view.bgarefresh.BGANormalRefreshViewHolder
 import com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout
-import kotlinx.android.synthetic.main.activity_battery_history.*
 
-@Deprecated("delete")
-class BatteryHistoryActivity : AppCompatActivity() {
+@SuppressLint("ValidFragment")
+class BatteryHistoryFragment(var batteryId: Long) : Fragment(), ScrollableView {
+
+    override fun setRefreshEnable(enable: Boolean) {
+        freshLayout.setRefreshEnable(enable)
+    }
+
+    override fun setLoadingEnable(enable: Boolean) {
+        freshLayout.setLoadingEnable(enable)
+    }
 
     private val userApplication = UserApplication.instance!!
 
     private lateinit var batteryItemAdapter: BatteryItemAdapter
     private var batteryList = ArrayList<Battery>()
-
-    private var battery: Battery? = null
 
     private var hasMore = true
     private val pageSize = 20//每页取20条
@@ -41,45 +49,41 @@ class BatteryHistoryActivity : AppCompatActivity() {
     private val TYPE_REFRESH = 0//下拉刷新
     private val TYPE_LOADMORE = 1//上拉加载
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_battery_history)
+    private lateinit var freshLayout: BGARefreshLayout
+    private lateinit var listView: RecyclerView
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_battery_history, container)
 
-        batteryItemAdapter = BatteryItemAdapter(this@BatteryHistoryActivity)
+        initView(view)
+
+        return view
+    }
+
+    private fun initView(rootView: View) {
+        freshLayout = rootView.findViewById(R.id.rl_fresh_layout)
+        listView = rootView.findViewById(R.id.rv_battery_list)
+
+        if (activity == null) return
+
+        batteryItemAdapter = BatteryItemAdapter(activity!!)
         batteryItemAdapter.setDataList(batteryList)
-        rv_battery_list.adapter = batteryItemAdapter
+        listView.adapter = batteryItemAdapter
 
         val layoutManager = LinearLayoutManager.VERTICAL
-        rv_battery_list.layoutManager = LinearLayoutManager(this@BatteryHistoryActivity, layoutManager, false)
-        rv_battery_list.itemAnimator = DefaultItemAnimator()
-        rv_battery_list.addItemDecoration(SpaceItemDecoration(2))
+        listView.layoutManager = LinearLayoutManager(activity!!, layoutManager, false)
+        listView.itemAnimator = DefaultItemAnimator()
+        listView.addItemDecoration(SpaceItemDecoration(2))
 
-        if (intent != null) {
-            battery = intent.extras.get("battery") as Battery
-        }
+        freshLayout.setRefreshViewHolder(BGANormalRefreshViewHolder(activity!!, true))
+        freshLayout.setDelegate(mDelegate)
 
-        rl_fresh_layout.setRefreshViewHolder(BGANormalRefreshViewHolder(this@BatteryHistoryActivity, true))
-        rl_fresh_layout.setDelegate(mDelegate)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (userApplication.hasLogin() && battery != null) {
-            rl_fresh_layout.beginRefreshing()
-        }
-    }
-
-    private fun logout() {
-        userApplication.token = ""
-        userApplication.userInfo = null
-        finish()
+        freshLayout.beginRefreshing()
     }
 
     private fun getBatteryHistory() {
         if (!userApplication.hasLogin()) return
-        SendRequest.getBatteryDataList(this@BatteryHistoryActivity, userApplication.token, battery!!.id,
+        SendRequest.getBatteryDataList(activity!!, userApplication.token, batteryId,
                 pageSize, pageNum, object : JsonCallback(){
             override fun onJsonSuccess(data: String) {
                 super.onJsonSuccess(data)
@@ -98,11 +102,8 @@ class BatteryHistoryActivity : AppCompatActivity() {
 
             override fun onJsonFail(jsonBean: JSonResultBean) {
                 super.onJsonFail(jsonBean)
-                rl_fresh_layout.endRefreshing()
+                freshLayout.endRefreshing()
                 ToastUtil.show(userApplication, jsonBean.message)
-                if (jsonBean.message.contains("重新登录")) {
-                    logout()
-                }
             }
         })
     }
@@ -123,12 +124,12 @@ class BatteryHistoryActivity : AppCompatActivity() {
 
             when (msg.what) {
                 TYPE_REFRESH -> {
-                    rl_fresh_layout.endRefreshing()
+                    freshLayout.endRefreshing()
                     batteryList.clear()
                     batteryList.addAll(list)
                 }
                 TYPE_LOADMORE -> {
-                    rl_fresh_layout.endLoadingMore()
+                    freshLayout.endLoadingMore()
                     batteryList.addAll(list)
                 }
             }
@@ -157,24 +158,6 @@ class BatteryHistoryActivity : AppCompatActivity() {
                 return false//不显示更多加载
             }
             return true
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    companion object {
-        fun start(context: Context, battery: Battery) {
-            val starter = Intent(context, BatteryHistoryActivity::class.java)
-            starter.putExtra("battery", battery)
-            context.startActivity(starter)
         }
     }
 }
