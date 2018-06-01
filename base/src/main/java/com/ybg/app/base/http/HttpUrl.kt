@@ -44,5 +44,7 @@ object HttpUrl {
         get() = "$ROOT_URL/deviceValueHistory/list"
     val deviceChartUrl: String
         get() = "$ROOT_URL/deviceValueHistory/calculate"
+    val deviceKeyDataUrl: String
+        get() = "$ROOT_URL/deviceValueHistory/listByKey"
 
 }

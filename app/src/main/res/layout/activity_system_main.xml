@@ -51,21 +51,11 @@
                         android:textSize="14sp"
                         android:textColor="@android:color/white"/>
                     <TextView
-                    android:id="@+id/tv_system_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/iv_system"
-                    android:layout_below="@id/tv_system_name"
-                    android:layout_marginStart="5dp"
-                    android:text="xx"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/white"/>
-                    <TextView
                         android:id="@+id/tv_system_address1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/iv_system"
-                        android:layout_below="@id/tv_system_value"
+                        android:layout_below="@id/tv_system_name"
                         android:layout_marginStart="5dp"
                         android:text="正在获取地址"
                         android:textSize="12sp"
@@ -79,6 +69,16 @@
                         android:layout_marginStart="5dp"
                         android:text="正在获取地址"
                         android:textSize="12sp"
+                        android:textColor="@android:color/white"/>
+                    <TextView
+                        android:id="@+id/tv_system_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/iv_system"
+                        android:layout_below="@id/tv_system_address2"
+                        android:layout_marginStart="5dp"
+                        android:text="xx"
+                        android:textSize="14sp"
                         android:textColor="@android:color/white"/>
                     <TextView
                         android:id="@+id/tv_system_time"

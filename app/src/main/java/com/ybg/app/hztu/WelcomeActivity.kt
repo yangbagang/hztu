@@ -15,8 +15,6 @@ import com.ybg.app.hztu.activity.user.LoginActivity
 import com.ybg.app.hztu.app.UserApplication
 import android.widget.TextView
 
-
-
 class WelcomeActivity : Activity() {
 
     private var tv_second_num: TextView? = null
@@ -28,6 +26,7 @@ class WelcomeActivity : Activity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_welcome)
 
         tv_second_num = findViewById(R.id.tv_second_num)
         tv_second_num?.setOnClickListener {
@@ -66,7 +65,7 @@ class WelcomeActivity : Activity() {
     private val runnable = object : Runnable {
         override fun run() {
             time--
-            if (time === 0) {
+            if (time == 0) {
                 enterMainActivity()
             } else {
                 if (mHandler != null) {

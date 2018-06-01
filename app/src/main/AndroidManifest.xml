@@ -66,6 +66,9 @@
             android:name=".activity.battery.BatteryLineChartActivity"
             android:label="@string/title_activity_battery_line_chart"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.battery.BatteryMainActivity"/>
+        <activity android:name=".activity.battery.SystemValueActivity"/>
+        <activity android:name=".activity.battery.WarningMainActivity"/>
     </application>
 
 </manifest>

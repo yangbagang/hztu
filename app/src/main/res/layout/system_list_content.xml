@@ -13,18 +13,10 @@
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
-        android:id="@+id/tv_bi"
+        android:id="@+id/tv_value"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:gravity="center"
-        android:textAppearance="?attr/textAppearanceListItem" />
-
-    <TextView
-        android:id="@+id/tv_btv"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center"
         android:textAppearance="?attr/textAppearanceListItem" />
 
@@ -32,7 +24,7 @@
         android:id="@+id/tv_time"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="1.5"
         android:gravity="center"
         android:textAppearance="?attr/textAppearanceListItem" />
 </LinearLayout>

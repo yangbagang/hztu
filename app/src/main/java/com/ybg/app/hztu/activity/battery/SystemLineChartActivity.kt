@@ -19,6 +19,7 @@ import com.ybg.app.hztu.app.UserApplication
 import kotlinx.android.synthetic.main.activity_system_line_chart.*
 import java.util.*
 
+@Deprecated("delete")
 class SystemLineChartActivity : AppCompatActivity() {
 
     private val userApplication = UserApplication.instance!!

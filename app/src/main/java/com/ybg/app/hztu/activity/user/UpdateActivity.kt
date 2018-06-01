@@ -84,6 +84,12 @@ class UpdateActivity : AppCompatActivity() {
             cancel = true
         }
 
+        if (newPwdStr.length < 6) {
+            et_new_pwd.error = getString(R.string.error_invalid_password)
+            focusView = et_new_pwd
+            cancel = true
+        }
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -94,10 +100,6 @@ class UpdateActivity : AppCompatActivity() {
             showProgress(true)
             update(oldPwdStr, newPwdStr)
         }
-    }
-
-    private fun isEmailValid(email: String): Boolean {
-        return email.contains("@")
     }
 
     /**

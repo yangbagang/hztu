@@ -13,66 +13,65 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.ybg.app.base.bean.Battery
 import com.ybg.app.base.bean.JSonResultBean
+import com.ybg.app.base.bean.LineChartItem
 import com.ybg.app.base.decoration.SpaceItemDecoration
 import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
 import com.ybg.app.base.scroll.ScrollableView
 import com.ybg.app.base.utils.ToastUtil
 import com.ybg.app.hztu.R
-import com.ybg.app.hztu.adapter.BatteryItemAdapter
-import com.ybg.app.hztu.adapter.RecyclerBaseAdapter
+import com.ybg.app.hztu.adapter.DeviceItemAdapter
 import com.ybg.app.hztu.app.UserApplication
 import com.ybg.app.hztu.view.bgarefresh.BGANormalRefreshViewHolder
 import com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout
 
+
 @SuppressLint("ValidFragment")
-class BatteryListFragment(var uid: String) : Fragment(), ScrollableView {
+class SystemHistoryFragment(var uid: String, var key: String) : Fragment(), ScrollableView {
 
     private val userApplication = UserApplication.instance!!
+
+    private lateinit var deviceItemAdapter: DeviceItemAdapter
+    private var batteryList = ArrayList<LineChartItem>()
+
     private var hasMore = true
-    private val pageSize = 15//每页取5条
+    private val pageSize = 20//每页取20条
     private var pageNum = 1//页码
 
     private val TYPE_REFRESH = 0//下拉刷新
     private val TYPE_LOADMORE = 1//上拉加载
 
-    private lateinit var batteryItemAdapter: BatteryItemAdapter
-    private var batteryList = ArrayList<Battery>()
-
     private lateinit var freshLayout: BGARefreshLayout
-    private lateinit var batteryRecyclerView: RecyclerView
+    private lateinit var historyListView: RecyclerView
 
     override fun setRefreshEnable(enable: Boolean) {
-        println("setRefreshEnable")
+        freshLayout.setRefreshEnable(enable)
     }
 
     override fun setLoadingEnable(enable: Boolean) {
-        println("setLoadingEnable")
+        freshLayout.setLoadingEnable(enable)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_battery_list, container)
-        freshLayout = view.findViewById(R.id.rl_fresh_layout)
-        batteryRecyclerView = view.findViewById(R.id.rv_battery_list)
-
-        initView()
-
+        val view = inflater.inflate(R.layout.fragment_system_history, container)
+        initView(view)
         return view
     }
 
-    private fun initView() {
+    private fun initView(rootView: View) {
         if (activity == null) return
-        batteryItemAdapter = BatteryItemAdapter(activity!!)
-        batteryItemAdapter.setDataList(batteryList)
-        batteryItemAdapter.setOnItemClickListener(systemItemClickListener)
-        batteryRecyclerView.adapter = batteryItemAdapter
+        freshLayout = rootView.findViewById(R.id.rl_fresh_layout)
+        historyListView = rootView.findViewById(R.id.rv_battery_list)
+
+        deviceItemAdapter = DeviceItemAdapter(activity!!)
+        deviceItemAdapter.setDataList(batteryList)
+        historyListView.adapter = deviceItemAdapter
 
         val layoutManager = LinearLayoutManager.VERTICAL
-        batteryRecyclerView.layoutManager = LinearLayoutManager(activity, layoutManager, false)
-        batteryRecyclerView.itemAnimator = DefaultItemAnimator()
-        batteryRecyclerView.addItemDecoration(SpaceItemDecoration(2))
+        historyListView.layoutManager = LinearLayoutManager(activity!!, layoutManager, false)
+        historyListView.itemAnimator = DefaultItemAnimator()
+        historyListView.addItemDecoration(SpaceItemDecoration(2))
 
         freshLayout.setRefreshViewHolder(BGANormalRefreshViewHolder(activity!!, true))
         freshLayout.setDelegate(mDelegate)
@@ -80,42 +79,46 @@ class BatteryListFragment(var uid: String) : Fragment(), ScrollableView {
         freshLayout.beginRefreshing()
     }
 
-    private fun getBatteryList() {
+    private fun getDeviceHistory() {
         if (!userApplication.hasLogin()) return
-        SendRequest.getBatteryDataByUid(activity!!, userApplication.token, uid,
-                pageSize, pageNum, object : JsonCallback() {
-            override fun onSuccess(code: Int, response: String) {
-                if (pageNum == 1) {
-                    val message = mShowHandler.obtainMessage()
-                    message.what = TYPE_REFRESH
-                    message.obj = response
-                    mShowHandler.sendMessage(message)
-                } else {
-                    val message = mShowHandler.obtainMessage()
-                    message.what = TYPE_LOADMORE
-                    message.obj = response
-                    mShowHandler.sendMessage(message)
-                }
-            }
-
-            override fun onFailure(e: Throwable) {
-                freshLayout.endRefreshing()
-            }
-        })
+        SendRequest.getDeviceKeyDataList(activity!!, userApplication.token, uid, key, pageSize,
+                pageNum, jsonCallBack)
     }
 
+    private val jsonCallBack = object : JsonCallback() {
+        override fun onJsonSuccess(data: String) {
+            super.onJsonSuccess(data)
+            if (pageNum == 1) {
+                val message = mShowHandler.obtainMessage()
+                message.what = TYPE_REFRESH
+                message.obj = data
+                mShowHandler.sendMessage(message)
+            } else {
+                val message = mShowHandler.obtainMessage()
+                message.what = TYPE_LOADMORE
+                message.obj = data
+                mShowHandler.sendMessage(message)
+            }
+        }
+
+        override fun onJsonFail(jsonBean: JSonResultBean) {
+            super.onJsonFail(jsonBean)
+            freshLayout.endRefreshing()
+            ToastUtil.show(userApplication, jsonBean.message)
+        }
+    }
+
+    /**
+     * 模拟请求网络数据
+     */
     private val mShowHandler = object : Handler() {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
 
             val gson = Gson()
-            val jSonResultBean = JSonResultBean.fromJSON(msg.obj.toString())
-            var list: List<Battery> = java.util.ArrayList()
-            if (jSonResultBean != null && jSonResultBean.isSuccess) {
-                list = gson.fromJson<List<Battery>>(jSonResultBean.data, object : TypeToken<List<Battery>>() {
+            var list: List<LineChartItem> = gson.fromJson<List<LineChartItem>>(msg.obj.toString(), object : TypeToken<List<LineChartItem>>() {
 
-                }.type)
-            }
+            }.type)
 
             hasMore = list.size == pageSize
 
@@ -130,8 +133,9 @@ class BatteryListFragment(var uid: String) : Fragment(), ScrollableView {
                     batteryList.addAll(list)
                 }
             }
-            batteryItemAdapter.setDataList(batteryList)
-            batteryItemAdapter.notifyDataSetChanged()
+            println(batteryList.size)
+            deviceItemAdapter.setDataList(batteryList)
+            deviceItemAdapter.notifyDataSetChanged()
         }
     }
 
@@ -142,27 +146,18 @@ class BatteryListFragment(var uid: String) : Fragment(), ScrollableView {
     private val mDelegate = object : BGARefreshLayout.BGARefreshLayoutDelegate {
         override fun onBGARefreshLayoutBeginRefreshing(refreshLayout: BGARefreshLayout) {
             pageNum = 1
-            getBatteryList()
+            getDeviceHistory()
         }
 
         override fun onBGARefreshLayoutBeginLoadingMore(refreshLayout: BGARefreshLayout): Boolean {
             if (hasMore) {
                 pageNum += 1
-                getBatteryList()
+                getDeviceHistory()
             } else {
                 ToastUtil.show(userApplication, "没有更多数据!")
                 return false//不显示更多加载
             }
             return true
-        }
-    }
-
-    private val systemItemClickListener = object : RecyclerBaseAdapter.OnItemClickListener {
-        override fun onItemClick(position: Int) {
-            val battery = batteryList[position]
-            activity?.let {
-                BatteryMainActivity.start(activity!!, battery)
-            }
         }
     }
 

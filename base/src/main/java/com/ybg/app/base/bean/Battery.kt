@@ -8,14 +8,6 @@ import java.io.Serializable
 class Battery : Serializable {
     var id = 0L
     var createTime = ""//接收到的时间
-    var createYear = 0//年
-    var createMonth = 0//月
-    var createDay = 0//日
-    var createHour = 0//时
-    var createMinute = 0//分
-    var createSecond = 0//秒
-    var dayInWeek = 0//星期几
-    var weekInYear = 0//第几周
     var uid = ""//为序列号即为“站号”
     var name = ""//用户自定义名称
     var catalogId = 0//分类ID
@@ -62,12 +54,11 @@ class Battery : Serializable {
     var hmv = 0f//合母电压
     var kmv = 0f//控母电压
     var oi = 0f//输出电流
-    var alm = 0//报警
-    var ex1 = 0f//扩展
-    var ex2 = 0f//扩展
-    var ex3 = 0f//扩展
-    var ex4 = 0f//扩展
-    var ex5 = 0f//扩展
+    var dp = 0f//电池压差
+    var chv = 0f//单体最高电压
+    var clv = 0f//单体最低电压
+    var cht = 0f//单体最高温度
+    var chr = 0f//单体最高内阻
 
     companion object {
         private val serialVersionUID = -5719117491658774918L

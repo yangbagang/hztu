@@ -13,6 +13,7 @@ import com.ybg.app.hztu.R
 import com.ybg.app.hztu.app.UserApplication
 import kotlinx.android.synthetic.main.activity_battery_detail.*
 
+@Deprecated("delete later")
 class BatteryDetailActivity : AppCompatActivity() {
 
     private val userApplication = UserApplication.instance!!

@@ -24,6 +24,7 @@ import com.ybg.app.hztu.view.bgarefresh.BGANormalRefreshViewHolder
 import com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout
 import kotlinx.android.synthetic.main.activity_battery_history.*
 
+@Deprecated("delete")
 class BatteryHistoryActivity : AppCompatActivity() {
 
     private val userApplication = UserApplication.instance!!

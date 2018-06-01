@@ -2,7 +2,6 @@ package com.ybg.app.hztu.adapter
 
 import android.app.Activity
 import android.app.Service
-import android.inputmethodservice.InputMethodService
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +32,7 @@ class SystemItemAdapter(private var mContext: Activity) : BaseAdapter() {
     fun setDataList(list: List<Battery>) {
         mList = list
     }
+
     override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
         var convertView = view
         var viewHolder: ViewHolder? = null
@@ -47,15 +47,8 @@ class SystemItemAdapter(private var mContext: Activity) : BaseAdapter() {
 
         val battery = getItem(position)
         val uid = battery.uid
-        //TODO 根据UID不同显示不同图标
-        if (uid.startsWith("WLCB")) {
 
-        } else if (uid.startsWith("WLCD")) {
-
-        } else if (uid.startsWith("WLCU")) {
-
-        }
-        viewHolder?.systemValueView?.text = "BI: ${battery.bi}, BTV: ${battery.btv}"
+        viewHolder?.systemValueView?.text = getDeviceValueText(battery)
         var name = battery.name
         if (name == "") {
             viewHolder?.systemNameView?.text = uid
@@ -97,6 +90,17 @@ class SystemItemAdapter(private var mContext: Activity) : BaseAdapter() {
         return convertView!!
     }
 
+    private fun getDeviceValueText(battery: Battery): String {
+        var text = ""
+        when (battery.catalogId) {
+            0 -> text = String.format("电池组电压：%f 电流：%f 新告警：%d", battery.btv, battery.bi, 0)
+            1, 2, 3 -> text = String.format("电池组电压：%f 电流：%f 新告警：%d", battery.btv, battery.bi, 0)
+            4, 5 -> text = String.format("控母电压：%f 合母电压：%f 电池组电压：%f 电流：%f 新告警：%d",
+                    battery.kmv, battery.hmv, battery.btv, battery.bi, 0)
+        }
+        return text
+    }
+
     override fun getItem(position: Int): Battery = mList!![position]
 
     override fun getItemId(position: Int): Long = mList!![position].id
@@ -122,7 +126,7 @@ class SystemItemAdapter(private var mContext: Activity) : BaseAdapter() {
     }
 
     private fun getSystemAddress(viewHolder: ViewHolder?, lac: Int, cid: Int, type: Int) {
-        SendRequest.getLocation(mContext, userApplication.token, lac, cid, type, object : JsonCallback(){
+        SendRequest.getLocation(mContext, userApplication.token, lac, cid, type, object : JsonCallback() {
             override fun onJsonSuccess(data: String) {
                 val address = data.split(";")[0]
                 viewHolder?.systemAddressView?.text = address

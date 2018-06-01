@@ -132,4 +132,15 @@ object SendRequest {
         OkHttpProxy.post(HttpUrl.deviceChartUrl, tag, params, callback)
     }
 
+    /**
+     * 2.9
+     * 获得某指定列的历史数据
+     */
+    fun getDeviceKeyDataList(tag: Context, token: String, uid: String, key: String, pageSize: Int,
+                             pageNum: Int, callback: OkCallback<*>) {
+        val params = mapOf<String, String>("token" to token, "uid" to uid,
+                "key" to key, "pageSize" to "$pageSize", "pageNum" to "$pageNum")
+        OkHttpProxy.post(HttpUrl.deviceKeyDataUrl, tag, params, callback)
+    }
+
 }
