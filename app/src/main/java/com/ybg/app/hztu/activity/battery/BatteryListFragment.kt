@@ -82,7 +82,7 @@ class BatteryListFragment(var device: Battery) : Fragment(), ScrollableView {
 
     private fun getBatteryList() {
         if (!userApplication.hasLogin()) return
-        SendRequest.getBatteryDataByUid(activity!!, userApplication.token, device.uid,
+        SendRequest.getBatteryListByUid(activity!!, userApplication.token, device.uid,
                 pageSize, pageNum, object : JsonCallback() {
             override fun onSuccess(code: Int, response: String) {
                 if (pageNum == 1) {

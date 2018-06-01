@@ -92,7 +92,8 @@ object SendRequest {
      * 2.4
      * 获取某设备下的所有电池
      */
-    fun getBatteryDataByUid(tag: Context, token: String, uid: String, pageSize: Int, pageNum: Int, callback: OkCallback<*>) {
+    fun getBatteryListByUid(tag: Context, token: String, uid: String, pageSize: Int, pageNum: Int,
+                         callback: OkCallback<*>) {
         val params = mapOf<String, String>("token" to token, "uid" to uid, "pageSize" to "$pageSize", "pageNum" to "$pageNum")
         OkHttpProxy.post(HttpUrl.getBatteryListUrl, tag, params, callback)
     }
@@ -101,9 +102,10 @@ object SendRequest {
      * 2.5
      * 获得历史数据
      */
-    fun getBatteryDataList(tag: Context, token: String, batteryId: Long, pageSize: Int, pageNum: Int, callback: OkCallback<*>) {
+    fun getBatteryHistoryDataList(tag: Context, token: String, batteryId: Long, pageSize: Int,
+                                pageNum: Int, callback: OkCallback<*>) {
         val params = mapOf<String, String>("token" to token, "batteryId" to "$batteryId", "pageSize" to "$pageSize", "pageNum" to "$pageNum")
-        OkHttpProxy.post(HttpUrl.batteryDataUrl, tag, params, callback)
+        OkHttpProxy.post(HttpUrl.batteryHistoryDataUrl, tag, params, callback)
     }
 
     /**

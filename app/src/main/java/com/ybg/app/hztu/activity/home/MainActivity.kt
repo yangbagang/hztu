@@ -69,8 +69,14 @@ class MainActivity : AppCompatActivity() {
             return true
         } else if (id == R.id.action_logout) {
             SendRequest.userLogout(this@MainActivity, userApplication.token, object : JsonCallback() {
+                override fun onJsonSuccess(data: String) {
+                    logout()
+                }
+
+                override fun onJsonFail(jsonBean: JSonResultBean) {
+                    logout()
+                }
             })
-            logout()
         }
 
         return super.onOptionsItemSelected(item)

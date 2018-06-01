@@ -83,7 +83,7 @@ class BatteryValueFragment(var batteryId: Long) : Fragment(), ScrollableView {
 
     private fun getBatteryHistory() {
         if (!userApplication.hasLogin()) return
-        SendRequest.getBatteryDataList(activity!!, userApplication.token, batteryId,
+        SendRequest.getBatteryHistoryDataList(activity!!, userApplication.token, batteryId,
                 pageSize, pageNum, object : JsonCallback(){
             override fun onJsonSuccess(data: String) {
                 super.onJsonSuccess(data)

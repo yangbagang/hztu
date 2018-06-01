@@ -13,11 +13,9 @@ import com.ybg.app.base.utils.GsonUtil
 import com.ybg.app.hztu.activity.home.MainActivity
 import com.ybg.app.hztu.activity.user.LoginActivity
 import com.ybg.app.hztu.app.UserApplication
-import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_welcome.*
 
 class WelcomeActivity : Activity() {
-
-    private var tv_second_num: TextView? = null
 
     private var time = 3//倒计时
 
@@ -28,7 +26,6 @@ class WelcomeActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
-        tv_second_num = findViewById(R.id.tv_second_num)
         tv_second_num?.setOnClickListener {
             enterMainActivity()
         }
@@ -40,7 +37,7 @@ class WelcomeActivity : Activity() {
         val userApplication = UserApplication.instance
         if (userApplication != null && userApplication.hasLogin()) {
             MainActivity.start(this)
-            SendRequest.getUserInfo(this@WelcomeActivity, userApplication.token, object : JsonCallback(){
+            SendRequest.getUserInfo(this@WelcomeActivity, userApplication.token, object : JsonCallback() {
                 override fun onJsonSuccess(data: String) {
                     super.onJsonSuccess(data)
                     val userInfo = GsonUtil.createGson().fromJson<UserInfo>(data, UserInfo::class.java)

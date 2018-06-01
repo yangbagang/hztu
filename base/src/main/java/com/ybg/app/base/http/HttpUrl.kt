@@ -36,7 +36,7 @@ object HttpUrl {
         get() = "$ROOT_URL/deviceInfo/updateName"
     val getBatteryListUrl: String
         get() = "$ROOT_URL/battery/listByUid"
-    val batteryDataUrl: String
+    val batteryHistoryDataUrl: String
         get() = "$ROOT_URL/batteryHistory/list"
     val batteryChartUrl: String
         get() = "$ROOT_URL/batteryHistory/calculate"
