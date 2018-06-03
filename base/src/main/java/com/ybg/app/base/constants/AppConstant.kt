@@ -11,8 +11,6 @@ object AppConstant {
     const val IS_FIRST_USE = "isFirstUse"
     // 属性文件
     const val PREFERENCE_FILE_NAME = "ybg_hztu_preference.dat"
-    // 调试标志
-    const val isDebug = false
 
     // 外部存储设备的根路径
     private val ExternalStorageRootPath = EnvironmentStateUtil.externalStorageDirectory.path

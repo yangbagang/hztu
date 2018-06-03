@@ -1,6 +1,6 @@
 package com.ybg.app.base.http
 
-import com.ybg.app.base.constants.AppConstant
+import com.ybg.app.base.BuildConfig
 
 /**
  * 网络请求相关设置,配置请求地址及参数
@@ -8,12 +8,7 @@ import com.ybg.app.base.constants.AppConstant
 object HttpUrl {
 
     //全局定义
-    //开发服务器地址
-    private const val API_HOST_DEBUG = "http://192.168.1.3:8080/hztua"
-    //生产服务器地址
-    private const val API_HOST_PRODUCT = "http://47.100.22.227:8080/hztua"
-
-    private val ROOT_URL = if (AppConstant.isDebug) API_HOST_DEBUG else API_HOST_PRODUCT
+    private val ROOT_URL = BuildConfig.API_HOST_SERVER
 
     //第一部分，用户操作
     val userLoginUrl: String

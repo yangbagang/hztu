@@ -4,8 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.view.Window
-import android.view.WindowManager
+import android.view.View
 import com.ybg.app.base.bean.UserInfo
 import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
@@ -20,10 +19,18 @@ class WelcomeActivity : Activity() {
     private var time = 3//倒计时
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //全屏声明
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setFlags(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
         super.onCreate(savedInstanceState)
+        //全屏声明
+        val decorView = window.decorView
+        val option = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+//        val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        decorView.systemUiVisibility = option
+
         setContentView(R.layout.activity_welcome)
 
         tv_second_num?.setOnClickListener {
