@@ -20,6 +20,7 @@ import com.ybg.app.hztu.pop.SystemEditPopupWindow
 
 /**
  * Created by ybg on 18-3-6.
+ * 应用于MainActivity
  */
 class SystemItemAdapter(private var mContext: Activity) : BaseAdapter() {
 
@@ -47,15 +48,11 @@ class SystemItemAdapter(private var mContext: Activity) : BaseAdapter() {
 
         val battery = getItem(position)
         val uid = battery.uid
+        val name = battery.name
 
         viewHolder?.systemValueView?.text = getDeviceValueText(battery)
-        var name = battery.name
-        if (name == "") {
-            viewHolder?.systemNameView?.text = uid
-            name = uid
-        } else {
-            viewHolder?.systemNameView?.text = name
-        }
+
+        viewHolder?.systemNameView?.text = "$uid($name)"
         viewHolder?.systemNameView?.setOnLongClickListener {
             val popupWindow = SystemEditPopupWindow(mContext, battery.uid, name, object : SystemEditPopupWindow
             .SystemEditListener {
@@ -93,10 +90,10 @@ class SystemItemAdapter(private var mContext: Activity) : BaseAdapter() {
     private fun getDeviceValueText(battery: Battery): String {
         var text = ""
         when (battery.catalogId) {
-            0 -> text = String.format("电池组电压：%f 电流：%f 新告警：%d", battery.btv, battery.bi, 0)
-            1, 2, 3 -> text = String.format("电池组电压：%f 电流：%f 新告警：%d", battery.btv, battery.bi, 0)
-            4, 5 -> text = String.format("控母电压：%f 合母电压：%f 电池组电压：%f 电流：%f 新告警：%d",
-                    battery.kmv, battery.hmv, battery.btv, battery.bi, 0)
+            0 -> text = "电池组电压：${battery.btv} 电流：${battery.bi} 新告警：0"
+            1, 2, 3 -> text = "电池组电压：${battery.btv} 电流：${battery.bi} 新告警：0"
+            4, 5 -> text = "控母电压：${battery.kmv} 合母电压：${battery.hmv} 电池组电压：${battery.btv} 电流：${battery.bi} " +
+                    "新告警：0"
         }
         return text
     }

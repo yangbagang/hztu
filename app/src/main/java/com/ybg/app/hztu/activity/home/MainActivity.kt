@@ -97,7 +97,6 @@ class MainActivity : AppCompatActivity() {
 
     private val jsonCallback = object : JsonCallback() {
         override fun onJsonSuccess(data: String) {
-            super.onJsonSuccess(data)
             val gson = Gson()
             batteryList.addAll(gson.fromJson<List<Battery>>(data, object : TypeToken<List<Battery>>() {}.type))
             systemItemAdapter.setDataList(batteryList)

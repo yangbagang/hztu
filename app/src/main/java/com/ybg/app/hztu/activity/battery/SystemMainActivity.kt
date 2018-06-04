@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.view.View
 import com.ybg.app.base.bean.Battery
 import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
@@ -90,9 +91,13 @@ class SystemMainActivity : AppCompatActivity() {
                 if (position == 0) {
                     v_item_1.setBackgroundResource(R.drawable.ic_item_selected)
                     v_item_2.setBackgroundResource(R.drawable.ic_item_normal)
+                    ll_device_title1.visibility = View.VISIBLE
+                    ll_device_title2.visibility = View.GONE
                 } else {
                     v_item_2.setBackgroundResource(R.drawable.ic_item_selected)
                     v_item_1.setBackgroundResource(R.drawable.ic_item_normal)
+                    ll_device_title1.visibility = View.GONE
+                    ll_device_title2.visibility = View.VISIBLE
                 }
             }
         })

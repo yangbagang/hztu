@@ -45,15 +45,15 @@ class BatteryListFragment(var device: Battery) : Fragment(), ScrollableView {
     private lateinit var batteryRecyclerView: RecyclerView
 
     override fun setRefreshEnable(enable: Boolean) {
-        println("setRefreshEnable")
+        freshLayout.setRefreshEnable(enable)
     }
 
     override fun setLoadingEnable(enable: Boolean) {
-        println("setLoadingEnable")
+        freshLayout.setLoadingEnable(enable)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_battery_list, container)
+        val view = inflater.inflate(R.layout.fragment_battery_list, container, false)
         freshLayout = view.findViewById(R.id.rl_fresh_layout)
         batteryRecyclerView = view.findViewById(R.id.rv_battery_list)
 
