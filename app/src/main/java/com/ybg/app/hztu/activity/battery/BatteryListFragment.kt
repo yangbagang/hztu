@@ -161,7 +161,7 @@ class BatteryListFragment(var device: Battery) : Fragment(), ScrollableView {
         override fun onItemClick(position: Int) {
             val battery = batteryList[position]
             activity?.let {
-                BatteryMainActivity.start(activity!!, device, battery.id)
+                BatteryMainActivity.start(activity!!, device, battery.id, battery.num)
             }
         }
     }

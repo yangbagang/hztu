@@ -108,48 +108,10 @@
             </android.support.design.widget.CollapsingToolbarLayout>
 
             <LinearLayout
-                android:id="@+id/ll_device_title1"
+                android:id="@+id/ll_battery_title"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.5"
-                    android:gravity="center"
-                    android:text="参数名"
-                    android:textAppearance="?attr/textAppearanceListItem"
-                    android:textColor="@android:color/white"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="参数值"
-                    android:textAppearance="?attr/textAppearanceListItem"
-                    android:textColor="@android:color/white"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="单位"
-                    android:textAppearance="?attr/textAppearanceListItem"
-                    android:textColor="@android:color/white"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_device_title2"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal"
-                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -195,7 +157,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.5"
                     android:gravity="center"
-                    android:text="更新"
+                    android:text="最后更新"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:textColor="@android:color/white"/>
             </LinearLayout>

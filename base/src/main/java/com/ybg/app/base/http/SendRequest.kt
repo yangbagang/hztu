@@ -104,7 +104,8 @@ object SendRequest {
      */
     fun getBatteryHistoryDataList(tag: Context, token: String, batteryId: Long, pageSize: Int,
                                 pageNum: Int, callback: OkCallback<*>) {
-        val params = mapOf<String, String>("token" to token, "batteryId" to "$batteryId", "pageSize" to "$pageSize", "pageNum" to "$pageNum")
+        val params = mapOf<String, String>("token" to token, "batteryId" to "$batteryId",
+                "pageSize" to "$pageSize", "pageNum" to "$pageNum")
         OkHttpProxy.post(HttpUrl.batteryHistoryDataUrl, tag, params, callback)
     }
 

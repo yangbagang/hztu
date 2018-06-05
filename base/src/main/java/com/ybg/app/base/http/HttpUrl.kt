@@ -36,10 +36,10 @@ object HttpUrl {
     val batteryChartUrl: String
         get() = "$ROOT_URL/batteryHistory/calculate"
     val deviceDataUrl: String
-        get() = "$ROOT_URL/deviceValueHistory/list"
+        get() = "$ROOT_URL/deviceHistoryValue/list"
     val deviceChartUrl: String
-        get() = "$ROOT_URL/deviceValueHistory/calculate"
+        get() = "$ROOT_URL/deviceHistoryValue/calculate"
     val deviceKeyDataUrl: String
-        get() = "$ROOT_URL/deviceValueHistory/listByKey"
+        get() = "$ROOT_URL/deviceHistoryValue/listByKey"
 
 }

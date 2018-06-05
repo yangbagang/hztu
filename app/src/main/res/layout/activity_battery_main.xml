@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/cl_main_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_above="@+id/rl_indicator">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -103,7 +109,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.7"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:text="序号"
@@ -112,7 +118,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.5"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:text="电压"
@@ -139,7 +145,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:gravity="center"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:text="最后更新"
@@ -147,40 +153,58 @@
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_device"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="120dp">
+        android:orientation="vertical"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </android.support.v4.view.ViewPager>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:layout_gravity="center_horizontal|bottom">
-        <View
-            android:id="@+id/v_item_1"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@drawable/ic_item_selected" />
-        <View
-            android:id="@+id/v_item_2"
-            android:layout_width="24dp"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_height="24dp"
-            android:background="@drawable/ic_item_normal" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_device"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_system_type"
+</android.support.design.widget.CoordinatorLayout>
+    <RelativeLayout
+        android:id="@+id/rl_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:text="UPS三进三出"
-        android:background="@drawable/square_black_bg"
-        android:layout_gravity="center_horizontal|bottom"/>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
 
-</android.support.design.widget.CoordinatorLayout>
+        <LinearLayout
+            android:id="@+id/ll_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp">
+
+            <View
+                android:id="@+id/v_item_1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/ic_item_selected"/>
+
+            <View
+                android:id="@+id/v_item_2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:background="@drawable/ic_item_normal"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_system_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_indicator"
+            android:layout_gravity="center_horizontal|bottom"
+            android:background="@drawable/square_black_bg"
+            android:padding="5dp"
+            android:text="UPS三进三出"/>
+    </RelativeLayout>
+</RelativeLayout>

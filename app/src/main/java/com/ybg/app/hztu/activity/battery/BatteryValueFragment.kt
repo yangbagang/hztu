@@ -22,12 +22,14 @@ import com.ybg.app.base.scroll.ScrollableView
 import com.ybg.app.base.utils.ToastUtil
 import com.ybg.app.hztu.R
 import com.ybg.app.hztu.adapter.BatteryItemAdapter
+import com.ybg.app.hztu.adapter.RecyclerBaseAdapter
 import com.ybg.app.hztu.app.UserApplication
 import com.ybg.app.hztu.view.bgarefresh.BGANormalRefreshViewHolder
 import com.ybg.app.hztu.view.bgarefresh.BGARefreshLayout
 
 @SuppressLint("ValidFragment")
-class BatteryValueFragment(var batteryId: Long) : Fragment(), ScrollableView {
+class BatteryValueFragment(var device: Battery, var batteryId: Long, var num: Int) : Fragment(),
+        ScrollableView {
 
     override fun setRefreshEnable(enable: Boolean) {
         freshLayout.setRefreshEnable(enable)
@@ -53,7 +55,7 @@ class BatteryValueFragment(var batteryId: Long) : Fragment(), ScrollableView {
     private lateinit var listView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_battery_value, container)
+        val view = inflater.inflate(R.layout.fragment_battery_value, container, false)
 
         initView(view)
 
@@ -68,6 +70,7 @@ class BatteryValueFragment(var batteryId: Long) : Fragment(), ScrollableView {
 
         batteryItemAdapter = BatteryItemAdapter(activity!!)
         batteryItemAdapter.setDataList(batteryList)
+        batteryItemAdapter.setOnItemClickListener(batteryItemClickListener)
         listView.adapter = batteryItemAdapter
 
         val layoutManager = LinearLayoutManager.VERTICAL
@@ -158,6 +161,15 @@ class BatteryValueFragment(var batteryId: Long) : Fragment(), ScrollableView {
                 return false//不显示更多加载
             }
             return true
+        }
+    }
+
+    private val batteryItemClickListener = object : RecyclerBaseAdapter.OnItemClickListener {
+        override fun onItemClick(position: Int) {
+            //val battery = batteryList[position]
+            activity?.let {
+                BatteryValueActivity.start(activity!!, device, batteryId, num)
+            }
         }
     }
 

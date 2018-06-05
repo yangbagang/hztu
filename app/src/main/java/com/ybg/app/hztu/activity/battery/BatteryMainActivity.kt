@@ -21,6 +21,7 @@ class BatteryMainActivity : AppCompatActivity() {
     private val userApplication = UserApplication.instance!!
     private var battery: Battery? = null
     private var batteryId = 0L
+    private var num = 0
 
     private var normalFragment: BatteryValueFragment? = null
     private var errorFragment: BatteryExceptionFragment? = null
@@ -56,6 +57,7 @@ class BatteryMainActivity : AppCompatActivity() {
         if (intent != null) {
             battery = intent.extras.get("battery") as Battery
             batteryId = intent.extras.getLong("batteryId")
+            num = intent.extras.getInt("num")
             if (battery != null) {
                 tv_system_name.text = "${battery!!.uid}(${battery!!.name})"
                 tv_system_value.text = "总告警数: 0, 新告警: 0"
@@ -63,7 +65,9 @@ class BatteryMainActivity : AppCompatActivity() {
                 getSystemAddress(battery!!.lac, battery!!.cid, 0)
                 tv_system_time.text = DateUtil.getTimeInterval(battery!!.createTime)
 
-                normalFragment = BatteryValueFragment( batteryId)
+                tv_system_type.text = "电池数据"
+
+                normalFragment = BatteryValueFragment( battery!!, batteryId, num)
                 errorFragment = BatteryExceptionFragment(batteryId)
             }
         }
@@ -133,10 +137,11 @@ class BatteryMainActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun start(context: Context, battery: Battery, batteryId: Long) {
+        fun start(context: Context, battery: Battery, batteryId: Long, num: Int) {
             val starter = Intent(context, BatteryMainActivity::class.java)
             starter.putExtra("battery", battery)
             starter.putExtra("batteryId", batteryId)
+            starter.putExtra("num", num)
             context.startActivity(starter)
         }
     }

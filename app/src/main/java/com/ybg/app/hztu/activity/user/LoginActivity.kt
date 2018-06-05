@@ -41,8 +41,16 @@ class LoginActivity : AppCompatActivity() {
             }
             false
         })
+
         //加载上次记住的密码
-        password.setText(userApplication.pwd)
+        if (userApplication.mobile != "") {
+            mobile.setText(userApplication.mobile)
+            password.setText(userApplication.password)
+            cb_remember_pwd.isChecked = true
+        } else {
+            cb_remember_pwd.isChecked = false
+        }
+
 
         mobile_sign_in_button.setOnClickListener { attemptLogin() }
     }
@@ -150,9 +158,11 @@ class LoginActivity : AppCompatActivity() {
                 showProgress(false)
                 //处理记录密码功能
                 if (cb_remember_pwd.isChecked) {
-                    userApplication.pwd = password
+                    userApplication.mobile = mobile
+                    userApplication.password = password
                 } else {
-                    userApplication.pwd = ""
+                    userApplication.mobile = ""
+                    userApplication.password = ""
                 }
                 MainActivity.start(this@LoginActivity)
                 finish()

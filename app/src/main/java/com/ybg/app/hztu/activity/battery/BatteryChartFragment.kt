@@ -46,11 +46,12 @@ class BatteryChartFragment(var batteryId: Long) : Fragment(), ScrollableView {
     private lateinit var period5: TextView
     private lateinit var period6: TextView
     private lateinit var lineChartView: ScrollLineChartView
+    private lateinit var notFoundLabel: TextView
 
     private var chartItemList: MutableList<LineChartItem> = ArrayList<LineChartItem>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_battery_chart, container)
+        val view = inflater.inflate(R.layout.fragment_battery_chart, container, false)
 
         initView(view)
         initEvent()
@@ -70,6 +71,7 @@ class BatteryChartFragment(var batteryId: Long) : Fragment(), ScrollableView {
         period6 = rootView.findViewById(R.id.tv_period_6)
 
         lineChartView = rootView.findViewById(R.id.lineChartView)
+        notFoundLabel = rootView.findViewById(R.id.tv_no_data)
     }
 
     private fun initEvent() {
@@ -180,9 +182,15 @@ class BatteryChartFragment(var batteryId: Long) : Fragment(), ScrollableView {
                 super.onJsonSuccess(data)
                 val list = GsonUtil.createGson().fromJson<List<LineChartItem>>(data, object : TypeToken<List<LineChartItem>>() {}.type)
                 chartItemList.clear()
+
                 if (list.isEmpty()) {
-                    ToastUtil.show(userApplication, "没有相关数据")
+                    notFoundLabel.visibility = View.VISIBLE
+                    lineChartView.visibility = View.GONE
+                } else {
+                    notFoundLabel.visibility = View.GONE
+                    lineChartView.visibility = View.VISIBLE
                 }
+
                 list.forEach {
                     chartItemList.add(LineChartItem(it.xValue, it.yValue))
                 }

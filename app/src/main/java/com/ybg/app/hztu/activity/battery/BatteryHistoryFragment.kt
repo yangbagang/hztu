@@ -53,7 +53,7 @@ class BatteryHistoryFragment(var batteryId: Long) : Fragment(), ScrollableView {
     private lateinit var listView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_battery_history, container)
+        val view = inflater.inflate(R.layout.fragment_battery_history, container, false)
 
         initView(view)
 
@@ -86,7 +86,6 @@ class BatteryHistoryFragment(var batteryId: Long) : Fragment(), ScrollableView {
         SendRequest.getBatteryHistoryDataList(activity!!, userApplication.token, batteryId,
                 pageSize, pageNum, object : JsonCallback(){
             override fun onJsonSuccess(data: String) {
-                super.onJsonSuccess(data)
                 if (pageNum == 1) {
                     val message = mShowHandler.obtainMessage()
                     message.what = TYPE_REFRESH
@@ -101,7 +100,6 @@ class BatteryHistoryFragment(var batteryId: Long) : Fragment(), ScrollableView {
             }
 
             override fun onJsonFail(jsonBean: JSonResultBean) {
-                super.onJsonFail(jsonBean)
                 freshLayout.endRefreshing()
                 ToastUtil.show(userApplication, jsonBean.message)
             }
@@ -133,7 +131,7 @@ class BatteryHistoryFragment(var batteryId: Long) : Fragment(), ScrollableView {
                     batteryList.addAll(list)
                 }
             }
-            println(batteryList.size)
+
             batteryItemAdapter.setDataList(batteryList)
             batteryItemAdapter.notifyDataSetChanged()
         }

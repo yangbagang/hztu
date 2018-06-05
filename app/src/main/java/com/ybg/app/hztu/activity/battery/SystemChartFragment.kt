@@ -35,6 +35,7 @@ class SystemChartFragment(var uid: String, var key: String) : Fragment(), Scroll
     private lateinit var period5: TextView
     private lateinit var period6: TextView
     private lateinit var lineChartView: ScrollLineChartView
+    private lateinit var notFoundLabel: TextView
     
     override fun setRefreshEnable(enable: Boolean) {
         
@@ -45,7 +46,7 @@ class SystemChartFragment(var uid: String, var key: String) : Fragment(), Scroll
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_system_chart, container)
+        val view = inflater.inflate(R.layout.fragment_system_chart, container, false)
         
         initView(view)
         return view
@@ -58,6 +59,7 @@ class SystemChartFragment(var uid: String, var key: String) : Fragment(), Scroll
         period5 = rootView.findViewById(R.id.tv_period_5)
         period6 = rootView.findViewById(R.id.tv_period_6)
         lineChartView = rootView.findViewById(R.id.lineChartView)
+        notFoundLabel = rootView.findViewById(R.id.tv_no_data)
         //统计周期
         period2.setOnClickListener { setItemPeriod(2) }
         period3.setOnClickListener { setItemPeriod(3) }
@@ -138,9 +140,15 @@ class SystemChartFragment(var uid: String, var key: String) : Fragment(), Scroll
             val list = GsonUtil.createGson().fromJson<List<LineChartItem>>(data, object :
                     TypeToken<List<LineChartItem>>() {}.type)
             chartItemList.clear()
+
             if (list.isEmpty()) {
-                ToastUtil.show(userApplication, "没有相关数据")
+                notFoundLabel.visibility = View.VISIBLE
+                lineChartView.visibility = View.GONE
+            } else {
+                notFoundLabel.visibility = View.GONE
+                lineChartView.visibility = View.VISIBLE
             }
+
             list.forEach {
                 chartItemList.add(LineChartItem(it.xValue, it.yValue))
             }

@@ -113,16 +113,6 @@ class UpdateActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
 
-            token_update_form.visibility = if (show) View.GONE else View.VISIBLE
-            token_update_form.animate()
-                    .setDuration(shortAnimTime)
-                    .alpha((if (show) 0 else 1).toFloat())
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            token_update_form.visibility = if (show) View.GONE else View.VISIBLE
-                        }
-                    })
-
             update_progress.visibility = if (show) View.VISIBLE else View.GONE
             update_progress.animate()
                     .setDuration(shortAnimTime)
@@ -136,7 +126,6 @@ class UpdateActivity : AppCompatActivity() {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             update_progress.visibility = if (show) View.VISIBLE else View.GONE
-            token_update_form.visibility = if (show) View.GONE else View.VISIBLE
         }
     }
 

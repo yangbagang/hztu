@@ -108,7 +108,7 @@ class SystemDetailFragment(var battery: Battery) : Fragment(), ScrollableView {
             val label = values[0]
             val key = values[3]
             SystemValueActivity.start(activity!!, battery, String.format("%s(%s)",
-                    key.toUpperCase(), label), key)
+                    key.toUpperCase(), label), key.toLowerCase())
         }
     }
 

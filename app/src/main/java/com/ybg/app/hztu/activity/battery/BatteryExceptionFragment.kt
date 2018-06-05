@@ -53,7 +53,7 @@ class BatteryExceptionFragment(var batteryId: Long) : Fragment(), ScrollableView
     private lateinit var listView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_battery_value, container)
+        val view = inflater.inflate(R.layout.fragment_battery_value, container, false)
 
         initView(view)
 

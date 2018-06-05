@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.view.View
 import com.ybg.app.base.bean.Battery
 import com.ybg.app.base.http.SendRequest
 import com.ybg.app.base.http.callback.JsonCallback
@@ -62,6 +63,9 @@ class SystemValueActivity : AppCompatActivity() {
                 tv_system_name.text = "${battery!!.uid}(${battery!!.name})"
                 tv_system_value.text = "总告警数: 0, 新告警: 0"
 
+                supportActionBar?.title = "${label}历史数据"
+                tv_system_type.text = "历史数据"
+
                 getSystemAddress(battery!!.lac, battery!!.cid, 0)
                 tv_system_time.text = DateUtil.getTimeInterval(battery!!.createTime)
 
@@ -95,11 +99,13 @@ class SystemValueActivity : AppCompatActivity() {
                     v_item_2.setBackgroundResource(R.drawable.ic_item_normal)
                     tv_system_type.text = "历史数据"
                     supportActionBar?.title = "${label}历史数据"
+                    ll_properties_title.visibility = View.VISIBLE
                 } else {
                     v_item_2.setBackgroundResource(R.drawable.ic_item_selected)
                     v_item_1.setBackgroundResource(R.drawable.ic_item_normal)
                     tv_system_type.text = "折线图"
                     supportActionBar?.title = "${label}折线图"
+                    ll_properties_title.visibility = View.GONE
                 }
             }
         })

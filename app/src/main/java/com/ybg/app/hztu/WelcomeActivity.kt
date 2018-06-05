@@ -46,7 +46,6 @@ class WelcomeActivity : Activity() {
             MainActivity.start(this)
             SendRequest.getUserInfo(this@WelcomeActivity, userApplication.token, object : JsonCallback() {
                 override fun onJsonSuccess(data: String) {
-                    super.onJsonSuccess(data)
                     val userInfo = GsonUtil.createGson().fromJson<UserInfo>(data, UserInfo::class.java)
                     userApplication.userInfo = userInfo
                 }

@@ -57,8 +57,11 @@ class UserApplication : YbgAPP() {
 
     private val container = mutableMapOf<String, Any>()
 
-    var pwd: String
-        get() = preference.getString("pwd", "")
-        set(pwd) = preference.setString("pwd", pwd)
+    var password: String
+        get() = preference.getString("password", "")
+        set(pwd) = preference.setString("password", pwd)
+    var mobile: String
+        get() = preference.getString("mobile", "")
+        set(pwd) = preference.setString("mobile", pwd)
 
 }
